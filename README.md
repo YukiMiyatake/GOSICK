@@ -1,2 +1,5 @@
 # chaps
-chat-ops bot
+aws deploy chat-ops bot for Slack
+
+
+for Learning Golang
