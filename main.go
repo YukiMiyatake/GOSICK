@@ -54,12 +54,13 @@ func _main(args []string) int {
 	var allmsg = map[string]plugin.Symbol{}
 	var mention = map[string]plugin.Symbol{}
 
+	loadPlugin(&mention, "memo", "plugins/memo/memo.so")
 	loadPlugin(&mention, "echo", "plugins/echo/echo.so")
-	loadPlugin(&mention, "aws", "plugins/aws/aws.so")
-	loadPlugin(&mention, "sqs", "plugins/sqs/sqs.so")
+	//	loadPlugin(&mention, "aws", "plugins/aws/aws.so")
+	//	loadPlugin(&mention, "sqs", "plugins/sqs/sqs.so")
 	//loadPlugin(&mention, "ecr", "plugins/ecr/ecr.so")
 	//loadPlugin(&mention, "ecs", "plugins/ecs/ecs.so")
-	
+
 	slackListener := &SlackListener{
 		client:    client,
 		botID:     env.BotID,
@@ -84,11 +85,11 @@ func _main(args []string) int {
 }
 
 func loadPlugin(plug *map[string]plugin.Symbol, name string, path string) {
-	log.Printf("loadPlugin:" + name + ": " + path   )
-	
+	log.Printf("loadPlugin:" + name + ": " + path)
+
 	p, err := plugin.Open(path)
 	if err != nil {
-		log.Printf("fail to load plugin [%s]", path )
+		log.Printf("fail to load plugin [%s]", path)
 		return
 	}
 
