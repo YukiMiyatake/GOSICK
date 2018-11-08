@@ -1,4 +1,8 @@
+// +build !cmd_driver
+
 /*
+  TODO: プラグイン interface作る
+  TODO: ポインタまわり見直す
   TODO: 管理権限必要・・
   TODO: チャンネル名をチャンネルIDに変換
   TODO: チャンネルリスト対応
@@ -13,6 +17,8 @@
   TODO: AWSプラグインを同じフォルダに置きたいところ
   TODO: 設定ファイルの動的読み込み機能
   TODO: 全体ヘルプ
+  TODO: リスナー形式に
+  TODO: AWSプラグイン シングルトン設計検討
 */
 package main
 
@@ -84,26 +90,3 @@ func _main(args []string) int {
 	return 0
 }
 
-func loadPlugin(plug *map[string]plugin.Symbol, name string, path string) {
-	log.Printf("loadPlugin:" + name + ": " + path)
-
-	p, err := plugin.Open(path)
-	if err != nil {
-		log.Printf("fail to load plugin [%s]", path)
-		return
-	}
-
-	init, e := p.Lookup("Init")
-	if e != nil {
-		log.Printf("fail to Lookup 'init'")
-		return
-	}
-	init.(func())()
-
-	pv, err := p.Lookup("OnMention")
-	if err != nil {
-		log.Printf("fail to Lookup 'OnMention'")
-		return
-	}
-	(*plug)[name] = pv
-}
