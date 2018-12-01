@@ -27,13 +27,27 @@ func main() {
 }
 
 func _main(args []string) int {
-
 	log.Printf("[Info] Start CommandLine driver ")
+
+
+	va := []Traits  {IntVal{1},IntVal{2},IntVal{3},IntVal{4}}
+	log.Printf( strconv.FormatBool( Contains( va, IntVal{1})) )
+	log.Printf(strconv.FormatBool(Contains( va, IntVal{100})))
+
+	vs := []Traits  {StringVal{"1"},StringVal{"2"},StringVal{"3"},StringVal{"4"}}
+	log.Printf( strconv.FormatBool( Contains( vs, StringVal{"1"})) )
+
+
+
+	var env cmdConfig
+	if err := envconfig.Process("", &env); err != nil {
+	}
 
 	//client.SetDebug(true)
 //	var allmsg = map[string]plugin.Symbol{}
 	var mention = map[string]plugin.Symbol{}
 
+	// TODO: yuki load from Json
 	loadPlugin(&mention, "memo", "plugins/memo/memo.so")
 	loadPlugin(&mention, "echo", "plugins/echo/echo.so")
 	//	loadPlugin(&mention, "aws", "plugins/aws/aws.so")

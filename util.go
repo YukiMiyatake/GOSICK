@@ -5,6 +5,61 @@ import (
 	"plugin"
 )
 
+//////// container lib algorithm
+type Traits interface {
+	Val() Traits
+}
+
+type IntVal struct{val int}
+func (u IntVal) Val() Traits {
+	return (u)
+}
+
+type StringVal struct{val string}
+func (u StringVal) Val() Traits {
+	return (u);
+}
+
+func Contains(arr []Traits, val Traits) bool{
+	for _, v := range arr{
+		if v == val{
+			return true
+		}
+	}
+	return false
+}
+
+func AllOf(arr []Traits, val Traits) bool{
+	for _, v := range arr{
+		if v != val{
+			return false
+		}
+	}
+	return true
+}
+
+func NoneOf(arr []Traits, val Traits) bool{
+	for _, v := range arr{
+		if v == val{
+			return false
+		}
+	}
+	return true
+}
+
+func CountIf(arr []Traits, val Traits) int{
+	n := 0
+	for _, v := range arr{
+		if v == val{
+			n++
+		}
+	}
+	return n
+}
+
+
+/////////
+
 func loadPlugin(plug *map[string]plugin.Symbol, name string, path string) {
 	log.Printf("loadPlugin:" + name + ": " + path)
 
@@ -28,4 +83,5 @@ func loadPlugin(plug *map[string]plugin.Symbol, name string, path string) {
 	}
 	(*plug)[name] = pv
 }
+
 
