@@ -12,16 +12,14 @@ import (
 	"os"
 	//	"plugins/echo"
 	"plugin"
+	"strconv"
 	//  "echo"
 
+	"github.com/kelseyhightower/envconfig"
 )
 
-type envConfig struct {
-//	Port              string `envconfig:"PORT" default: "3000"`
-//	BotToken          string `envconfig:"BOT_TOKEN" required: "true"`
-//	VerificationToken string `envconfig:"VERIFICATION_TOKEN" required: "true"`
-	BotID             string `envconfig:"BOT_ID" require: "true"`
-//	ChannelID         string `envconfig:"CHANNEL_ID" require: "true"`
+type cmdConfig struct {
+	BotID             []string `envconfig:"BOT_NAME" default: {"gosick"}  required: "false"`
 }
 
 func main() {
@@ -59,7 +57,6 @@ func _main(args []string) int {
 			for key, value := range mention {
 				if msgs[1] == key {
 					log.Print(value.(func([]string) string)(msgs[2:]))
-					//return 0
 				}
 			}
 		}
