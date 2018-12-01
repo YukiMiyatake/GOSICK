@@ -31,22 +31,11 @@ func _main(args []string) int {
 
 
 	va := []int  {1, 2, 3, 4}
-
-	list := make([]interface{}, 0)
-	for _, v := range va {
-		list = append(list, v)
-	}
-
-	log.Printf( strconv.FormatBool( Contains( list, 1)) )
-	log.Printf(strconv.FormatBool(Contains( list, 100)))
+	log.Printf( strconv.FormatBool( Contains( Copy(va), 1)) )
+	log.Printf(strconv.FormatBool(Contains( Copy(va), 100)))
 
 	vs := []string  {"1", "2", "3", "4"}
-	list = make([]interface{}, 0)
-	for _, v := range vs {
-		list = append(list, v)
-	}
-
-	log.Printf( strconv.FormatBool( Contains( list, "1")) )
+	log.Printf( strconv.FormatBool( Contains( Copy(vs), "1")) )
 
 
 

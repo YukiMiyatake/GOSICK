@@ -20,6 +20,46 @@ func (u StringVal) Val() Traits {
 	return (u);
 }
 */
+
+func CopyInt(arr []int) []interface{} {
+	dest := make([]interface{}, 0)
+	for _, v := range arr {
+		dest = append(dest, v)
+	}
+	return dest
+}
+
+func CopyString(arr []string) []interface{} {
+	dest := make([]interface{}, 0)
+	for _, v := range arr {
+		dest = append(dest, v)
+	}
+	return dest
+}
+
+func Copy(arr interface{}) []interface{} {
+	dest := make([]interface{}, 0)
+
+	switch val := arr.(type) {
+	case []interface{}:
+	case []int:
+		for _, v := range val {
+			dest = append(dest, v)
+		}
+	case []string:
+		for _, v := range val {
+			dest = append(dest, v)
+		}
+	case int:
+		dest = append(dest, val)
+	case string:
+		dest = append(dest, val)
+	}
+
+	return dest
+}
+
+
 func Contains(arr []interface{}, val interface{}) bool{
 	for _, v := range arr{
 		if v == val{
