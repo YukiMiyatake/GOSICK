@@ -59,7 +59,7 @@ func _main(args []string) int {
 			for key, value := range mention {
 				if msgs[1] == key {
 					log.Print(value.(func([]string) string)(msgs[2:]))
-					return 0
+					//return 0
 				}
 			}
 		}
