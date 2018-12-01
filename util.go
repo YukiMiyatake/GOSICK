@@ -1,15 +1,15 @@
 package main
 
 import (
-	"log"
 	"plugin"
+	"log"
 )
 
 //////// container lib algorithm
-type Traits interface {
-	Val() Traits
+type Traits struct {
+	Val interface{}
 }
-
+/*
 type IntVal struct{val int}
 func (u IntVal) Val() Traits {
 	return (u)
@@ -19,8 +19,8 @@ type StringVal struct{val string}
 func (u StringVal) Val() Traits {
 	return (u);
 }
-
-func Contains(arr []Traits, val Traits) bool{
+*/
+func Contains(arr []interface{}, val interface{}) bool{
 	for _, v := range arr{
 		if v == val{
 			return true
@@ -28,7 +28,7 @@ func Contains(arr []Traits, val Traits) bool{
 	}
 	return false
 }
-
+/*
 func AllOf(arr []Traits, val Traits) bool{
 	for _, v := range arr{
 		if v != val{
@@ -57,7 +57,7 @@ func CountIf(arr []Traits, val Traits) int{
 	return n
 }
 
-
+*/
 /////////
 
 func loadPlugin(plug *map[string]plugin.Symbol, name string, path string) {

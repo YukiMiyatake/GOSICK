@@ -30,12 +30,23 @@ func _main(args []string) int {
 	log.Printf("[Info] Start CommandLine driver ")
 
 
-	va := []Traits  {IntVal{1},IntVal{2},IntVal{3},IntVal{4}}
-	log.Printf( strconv.FormatBool( Contains( va, IntVal{1})) )
-	log.Printf(strconv.FormatBool(Contains( va, IntVal{100})))
+	va := []int  {1, 2, 3, 4}
 
-	vs := []Traits  {StringVal{"1"},StringVal{"2"},StringVal{"3"},StringVal{"4"}}
-	log.Printf( strconv.FormatBool( Contains( vs, StringVal{"1"})) )
+	list := make([]interface{}, 0)
+	for _, v := range va {
+		list = append(list, v)
+	}
+
+	log.Printf( strconv.FormatBool( Contains( list, 1)) )
+	log.Printf(strconv.FormatBool(Contains( list, 100)))
+
+	vs := []string  {"1", "2", "3", "4"}
+	list = make([]interface{}, 0)
+	for _, v := range vs {
+		list = append(list, v)
+	}
+
+	log.Printf( strconv.FormatBool( Contains( list, "1")) )
 
 
 
