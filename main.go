@@ -29,6 +29,8 @@ import (
 	//	"plugins/echo"
 	"plugin"
 	//  "echo"
+	"github.com/YukiMiyatake/GOSICK/lib"
+	"github.com/YukiMiyatake/GOSICK/lib/container"
 
 	"github.com/kelseyhightower/envconfig"
 	"github.com/nlopes/slack"

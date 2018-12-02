@@ -1,9 +1,8 @@
-package main
+package container
 
 import (
-	"plugin"
-	"log"
 	"reflect"
+	"log"
 )
 
 //////// container lib algorithm
@@ -78,29 +77,3 @@ func CountIf(arr []Traits, val Traits) int{
 
 */
 /////////
-
-func loadPlugin(plug *map[string]plugin.Symbol, name string, path string) {
-	log.Printf("loadPlugin:" + name + ": " + path)
-
-	p, err := plugin.Open(path)
-	if err != nil {
-		log.Printf("fail to load plugin [%s]", path)
-		return
-	}
-
-	init, e := p.Lookup("Init")
-	if e != nil {
-		log.Printf("fail to Lookup 'init'")
-		return
-	}
-	init.(func())()
-
-	pv, err := p.Lookup("OnMention")
-	if err != nil {
-		log.Printf("fail to Lookup 'OnMention'")
-		return
-	}
-	(*plug)[name] = pv
-}
-
-
