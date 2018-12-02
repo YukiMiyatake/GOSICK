@@ -12,14 +12,13 @@ import (
 	"os"
 	//	"plugins/echo"
 	"plugin"
-	"strconv"
 	//  "echo"
 
 	"github.com/kelseyhightower/envconfig"
 )
 
 type cmdConfig struct {
-	BotID             []string `envconfig:"BOT_NAME" default: {"gosick"}  required: "false"`
+	BotName             []string `envconfig:"BOT_NAME" default: {"gosick", "regina"}  required: "false"`
 }
 
 func main() {
@@ -29,20 +28,20 @@ func main() {
 func _main(args []string) int {
 	log.Printf("[Info] Start CommandLine driver ")
 
-
+/*
 	va := []int  {1, 2, 3, 4}
-	log.Printf( strconv.FormatBool( Contains( Copy(va), 1)) )
-	log.Printf(strconv.FormatBool(Contains( Copy(va), 100)))
+	log.Printf( strconv.FormatBool( Contains( va, "1")) )
+	log.Printf(strconv.FormatBool(Contains( va, 100)))
 
 	vs := []string  {"1", "2", "3", "4"}
-	log.Printf( strconv.FormatBool( Contains( Copy(vs), "1")) )
-
+	log.Printf( strconv.FormatBool( Contains( vs, "1")) )
+*/
 
 
 	var env cmdConfig
 	if err := envconfig.Process("", &env); err != nil {
+		log.Print("error")
 	}
-
 	//client.SetDebug(true)
 //	var allmsg = map[string]plugin.Symbol{}
 	var mention = map[string]plugin.Symbol{}
@@ -67,7 +66,9 @@ func _main(args []string) int {
 		}
 
 		msgs := strings.Fields( text )
-		if (msgs[0] == "regina") {
+		// TODO: load from Env or JSON
+		if (Contains( []string{"regina","gosick"}, msgs[0])) {
+//		if (msgs[0] == "regina") {
 			for key, value := range mention {
 				if msgs[1] == key {
 					log.Print(value.(func([]string) string)(msgs[2:]))

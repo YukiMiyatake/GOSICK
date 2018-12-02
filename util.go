@@ -3,39 +3,11 @@ package main
 import (
 	"plugin"
 	"log"
+	"reflect"
 )
 
 //////// container lib algorithm
-type Traits struct {
-	Val interface{}
-}
-/*
-type IntVal struct{val int}
-func (u IntVal) Val() Traits {
-	return (u)
-}
-
-type StringVal struct{val string}
-func (u StringVal) Val() Traits {
-	return (u);
-}
-*/
-
-func CopyInt(arr []int) []interface{} {
-	dest := make([]interface{}, 0)
-	for _, v := range arr {
-		dest = append(dest, v)
-	}
-	return dest
-}
-
-func CopyString(arr []string) []interface{} {
-	dest := make([]interface{}, 0)
-	for _, v := range arr {
-		dest = append(dest, v)
-	}
-	return dest
-}
+// TODO: package
 
 func Copy(arr interface{}) []interface{} {
 	dest := make([]interface{}, 0)
@@ -60,7 +32,14 @@ func Copy(arr interface{}) []interface{} {
 }
 
 
-func Contains(arr []interface{}, val interface{}) bool{
+func Contains(i interface{}, val interface{}) bool{
+	arr := Copy(i)
+
+	if(reflect.TypeOf(arr[0]) != reflect.TypeOf(val)){
+		log.Printf("missmatch Type in Contains [%s] and [%s]",reflect.TypeOf(arr[0]) ,reflect.TypeOf(val) )
+		panic(0)
+	}
+
 	for _, v := range arr{
 		if v == val{
 			return true
