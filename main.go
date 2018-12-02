@@ -29,9 +29,8 @@ import (
 	//	"plugins/echo"
 	"plugin"
 	//  "echo"
-	"github.com/YukiMiyatake/GOSICK/lib"
-	"github.com/YukiMiyatake/GOSICK/lib/container"
 
+	"github.com/YukiMiyatake/GOSICK/lib"
 	"github.com/kelseyhightower/envconfig"
 	"github.com/nlopes/slack"
 )
@@ -62,8 +61,8 @@ func _main(args []string) int {
 	var allmsg = map[string]plugin.Symbol{}
 	var mention = map[string]plugin.Symbol{}
 
-	loadPlugin(&mention, "memo", "plugins/memo/memo.so")
-	loadPlugin(&mention, "echo", "plugins/echo/echo.so")
+	lib.LoadPlugin(&mention, "memo", "plugins/memo/memo.so")
+	lib.LoadPlugin(&mention, "echo", "plugins/echo/echo.so")
 	//	loadPlugin(&mention, "aws", "plugins/aws/aws.so")
 	//	loadPlugin(&mention, "sqs", "plugins/sqs/sqs.so")
 	//loadPlugin(&mention, "ecr", "plugins/ecr/ecr.so")

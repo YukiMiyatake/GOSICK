@@ -7,7 +7,7 @@ import (
 )
 
 
-func loadPlugin(plug *map[string]plugin.Symbol, name string, path string) {
+func LoadPlugin(plug *map[string]plugin.Symbol, name string, path string) {
 	log.Printf("loadPlugin:" + name + ": " + path)
 
 	p, err := plugin.Open(path)

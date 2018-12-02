@@ -15,7 +15,6 @@ import (
 
 	"github.com/YukiMiyatake/GOSICK/lib"
 	"github.com/YukiMiyatake/GOSICK/lib/container"
-
 	"github.com/kelseyhightower/envconfig"
 )
 
@@ -49,8 +48,8 @@ func _main(args []string) int {
 	var mention = map[string]plugin.Symbol{}
 
 	// TODO: yuki load from Json
-	loadPlugin(&mention, "memo", "plugins/memo/memo.so")
-	loadPlugin(&mention, "echo", "plugins/echo/echo.so")
+	lib.LoadPlugin(&mention, "memo", "plugins/memo/memo.so")
+	lib.LoadPlugin(&mention, "echo", "plugins/echo/echo.so")
 	//	loadPlugin(&mention, "aws", "plugins/aws/aws.so")
 	//	loadPlugin(&mention, "sqs", "plugins/sqs/sqs.so")
 	//loadPlugin(&mention, "ecr", "plugins/ecr/ecr.so")
@@ -69,7 +68,7 @@ func _main(args []string) int {
 
 		msgs := strings.Fields( text )
 		// TODO: load from Env or JSON
-		if (Contains( []string{"regina","gosick"}, msgs[0])) {
+		if (container.Contains( []string{"regina","gosick"}, msgs[0])) {
 //		if (msgs[0] == "regina") {
 			for key, value := range mention {
 				if msgs[1] == key {
