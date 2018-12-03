@@ -1,6 +1,8 @@
 {
   "BOT_TOKEN": "",
   "BOT_NAME": ["",""],
+  "BOT_ID": "",
   "CHANNEL_ID": "",
-  "VERIFICATION_TOKEN": ""
+  "VERIFICATION_TOKEN": "",
+  "PORT": ""
 }
