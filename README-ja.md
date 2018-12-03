@@ -20,12 +20,15 @@ export AWS_DEFAULT_PROFILE=
 また AWSの環境設定は下記
 aws.json
 
+---------------------------------------- 起動方法
 ---- Dockerを起動しシェル起動
-$ docker build
-$ ./docker_run
+プロジェクトルートディレクトリにて実行
+$ docker build -t gosick ./
+$ sh ./scripts/docker_run
 
 ---- Build
-# build.sh
+プロジェクトルートディレクトリにて実行
+# sh ./scripts/build.sh
 
 ---- Run
 # source .env
