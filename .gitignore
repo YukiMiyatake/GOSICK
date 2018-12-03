@@ -10,3 +10,5 @@ chaps
 .credentials
 aws.json
 GOSICK
+
+slack.json
