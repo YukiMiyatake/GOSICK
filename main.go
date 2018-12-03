@@ -34,7 +34,7 @@ import (
 	"github.com/nlopes/slack"
 )
 
-type envConfig struct {
+type slackConfig struct {
 	Port              string `envconfig:"PORT" default: "3000"`
 	BotToken          string `envconfig:"BOT_TOKEN" required: "true"`
 	VerificationToken string `envconfig:"VERIFICATION_TOKEN" required: "true"`
@@ -47,7 +47,7 @@ func main() {
 }
 
 func _main(args []string) int {
-	var env envConfig
+	var env slackConfig
 	if err := envconfig.Process("", &env); err != nil {
 		log.Printf("[Error] Failed to process env var: %s", err)
 		return 1
