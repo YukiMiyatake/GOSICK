@@ -70,12 +70,27 @@ func _main(args []string) int {
 	var allmsg = map[string]plugin.Symbol{}
 	var mention = map[string]plugin.Symbol{}
 
-	loadPlugin(&mention, "memo", "plugins/memo/memo.so")
-	loadPlugin(&mention, "echo", "plugins/echo/echo.so")
-	//	loadPlugin(&mention, "aws", "plugins/aws/aws.so")
-	//	loadPlugin(&mention, "sqs", "plugins/sqs/sqs.so")
-	//loadPlugin(&mention, "ecr", "plugins/ecr/ecr.so")
-	//loadPlugin(&mention, "ecs", "plugins/ecs/ecs.so")
+	pluginJson, err := ioutil.ReadFile("./plugin.json")
+	if err != nil {
+		log.Printf("[Error] %s", err)
+		return 1
+	}
+
+	type PluginData struct {
+		Name string `json:"NAME"`
+		Path string `json:"PATH"`
+	}
+
+	var pd []PluginData
+	err = json.Unmarshal(pluginJson, &pd)
+	if err != nil {
+		log.Printf("[Error] %s", err)
+		return 1
+	}
+
+	for _, p := range pd {
+		loadPlugin(&mention, p.Name, p.Path)
+	}
 
 	slackListener := &SlackListener{
 		client:    client,
