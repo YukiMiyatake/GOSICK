@@ -1,14 +1,15 @@
 ChatopsBOT
 
----- 設定
+---------------------------------------- 設定ファイル
+---- slack設定
+sample/slack.json.orgをもとにルートディレクトリにslack.jsonを設置する
+
+
 環境変数を2個使っている
 .env: 主にSlack Key
 .credentials: AWS設定
 
 export PWD="$(echo $('pwd') | sed -e 's/^\/mnt//')"
-export BOT_TOKEN=
-export BOT_NAME=BOT名
-export CHANNEL_ID=チャンネルID
 
 export AWS_ACCESS_KEY_ID=
 export AWS_SECRET_ACCESS_KEY=

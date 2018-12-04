@@ -30,16 +30,17 @@ import (
 	"plugin"
 	//  "echo"
 
-	"github.com/kelseyhightower/envconfig"
 	"github.com/nlopes/slack"
+	"io/ioutil"
+	"encoding/json"
 )
 
 type slackConfig struct {
-	Port              string `envconfig:"PORT" default: "3000"`
-	BotToken          string `envconfig:"BOT_TOKEN" required: "true"`
-	VerificationToken string `envconfig:"VERIFICATION_TOKEN" required: "true"`
-	BotID             string `envconfig:"BOT_ID" require: "true"`
-	ChannelID         string `envconfig:"CHANNEL_ID" require: "true"`
+	Port              string `json:"PORT"`
+	BotToken          string `json:"BOT_TOKEN"`
+	VerificationToken string `json:"VERIFICATION_TOKEN"`
+	BotID             string `json:"BOT_ID"`
+	ChannelID         string `json:"CHANNEL_ID"`
 }
 
 func main() {
@@ -47,14 +48,23 @@ func main() {
 }
 
 func _main(args []string) int {
-	var env slackConfig
-	if err := envconfig.Process("", &env); err != nil {
-		log.Printf("[Error] Failed to process env var: %s", err)
+	jsonData, err := ioutil.ReadFile("./slack.json")
+	if err != nil {
+		log.Printf("[Error] %s", err)
 		return 1
 	}
 
+	var sc slackConfig
+
+	err = json.Unmarshal(jsonData, &sc)
+	if err != nil {
+		log.Printf("[Error] %s", err)
+		return 1
+	}
+
+
 	log.Printf("[Info] Start slack event listening ")
-	client := slack.New(env.BotToken)
+	client := slack.New(sc.BotToken)
 
 	//client.SetDebug(true)
 	var allmsg = map[string]plugin.Symbol{}
@@ -69,8 +79,8 @@ func _main(args []string) int {
 
 	slackListener := &SlackListener{
 		client:    client,
-		botID:     env.BotID,
-		channelID: env.ChannelID,
+		botID:     sc.BotID,
+		channelID: sc.ChannelID,
 		allmsg:    allmsg,
 		mention:   mention,
 	}
@@ -78,11 +88,11 @@ func _main(args []string) int {
 	go slackListener.ListenAndResponse()
 
 	http.Handle("/interaction", interactionHandler{
-		verificationToken: env.VerificationToken,
+		verificationToken: sc.VerificationToken,
 	})
 
-	log.Printf("[Info] Server listening on: %s", env.Port)
-	if err := http.ListenAndServe(":"+env.Port, nil); err != nil {
+	log.Printf("[Info] Server listening on: %s", sc.Port)
+	if err := http.ListenAndServe(":"+sc.Port, nil); err != nil {
 		log.Printf("[Error] %s", err)
 		return 1
 	}

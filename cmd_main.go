@@ -14,11 +14,12 @@ import (
 	"plugin"
 	//  "echo"
 
-	"github.com/kelseyhightower/envconfig"
+	"io/ioutil"
+	"encoding/json"
 )
 
 type cmdConfig struct {
-	BotName             []string `envconfig:"BOT_NAME" default: {"gosick", "regina"}  required: "false"`
+	BotName             []string `json:"BOT_NAME"`
 }
 
 func main() {
@@ -37,9 +38,15 @@ func _main(args []string) int {
 	log.Printf( strconv.FormatBool( Contains( vs, "1")) )
 */
 
+	jsonData, err := ioutil.ReadFile("./slack.json")
+	if err != nil {
+		log.Print("error")
+	}
 
-	var env cmdConfig
-	if err := envconfig.Process("", &env); err != nil {
+	var cc cmdConfig
+
+	err = json.Unmarshal(jsonData, &cc)
+	if err != nil {
 		log.Print("error")
 	}
 	//client.SetDebug(true)
@@ -67,7 +74,7 @@ func _main(args []string) int {
 
 		msgs := strings.Fields( text )
 		// TODO: load from Env or JSON
-		if (Contains( []string{"regina","gosick"}, msgs[0])) {
+		if (Contains( cc.BotName, msgs[0])) {
 //		if (msgs[0] == "regina") {
 			for key, value := range mention {
 				if msgs[1] == key {
