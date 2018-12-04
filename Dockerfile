@@ -1,7 +1,7 @@
 FROM golang:1.9.2-alpine
 
 ENV GOBIN=$GOPATH/bin
-WORKDIR /chaps
+WORKDIR /gosick
 RUN mkdir /root/.aws
 COPY .credentials /root/.aws/
 COPY . .
