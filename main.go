@@ -70,8 +70,8 @@ func _main(args []string) int {
 	var allmsg = map[string]plugin.Symbol{}
 	var mention = map[string]plugin.Symbol{}
 
-	loadPlugin(&mention, "memo", "plugins/memo/memo.so")
-	loadPlugin(&mention, "echo", "plugins/echo/echo.so")
+	loadPlugin(&mention, "memo")
+	loadPlugin(&mention, "echo")
 	//	loadPlugin(&mention, "aws", "plugins/aws/aws.so")
 	//	loadPlugin(&mention, "sqs", "plugins/sqs/sqs.so")
 	//loadPlugin(&mention, "ecr", "plugins/ecr/ecr.so")
