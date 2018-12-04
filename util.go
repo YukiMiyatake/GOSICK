@@ -4,8 +4,6 @@ import (
 	"plugin"
 	"log"
 	"reflect"
-	"io/ioutil"
-	"encoding/json"
 )
 
 //////// container lib algorithm
@@ -81,40 +79,12 @@ func CountIf(arr []Traits, val Traits) int{
 */
 /////////
 
-func loadPlugin(plug *map[string]plugin.Symbol, name string) {
+func loadPlugin(plug *map[string]plugin.Symbol, name string, path string) {
+	log.Printf("loadPlugin:" + name + ": " + path)
 
-	jsonString, err := ioutil.ReadFile("./plugin.json")
+	p, err := plugin.Open(path)
 	if err != nil {
-		log.Printf("fail to load json")
-		return
-	}
-
-	type PluginData struct {
-		Name string `json:"NAME"`
-		Path string `json:"PATH"`
-	}
-
-	var pd []PluginData
-	err = json.Unmarshal(jsonString, &pd)
-	if err != nil {
-		log.Printf("fail to parse json")
-		return
-	}
-	
-	var pluginName,pluginPath string
-	
-	for _, p := range pd {
-		if(p.Name == name){
-			pluginName = p.Name
-			pluginPath = p.Path
-		}
-	}
-	
-	log.Printf("loadPlugin:" + pluginName + ": " + pluginPath)
-
-	p, err := plugin.Open(pluginPath)
-	if err != nil {
-		log.Printf("fail to load plugin [%s]", pluginPath)
+		log.Printf("fail to load plugin [%s]", path)
 		return
 	}
 
@@ -130,5 +100,7 @@ func loadPlugin(plug *map[string]plugin.Symbol, name string) {
 		log.Printf("fail to Lookup 'OnMention'")
 		return
 	}
-	(*plug)[pluginName] = pv
+	(*plug)[name] = pv
 }
+
+
