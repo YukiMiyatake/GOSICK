@@ -27,6 +27,20 @@ aws.json
 $ docker build -t gosick ./
 $ sh ./scripts/docker_run
 
+---- Dockerを起動しシェル起動（docker-composeの場合）
+ビルド&起動
+$ docker-compose up --build -d
+
+各コンテナログイン
+$ sh ./scripts/docker_app_run
+$ sh ./scripts/docker_redis_run
+
+停止
+$ docker-compose stop
+
+停止およびコンテナ削除したい場合はこちら
+$ docker-compose down
+
 ---- Build
 プロジェクトルートディレクトリにて実行
 # sh ./scripts/build.sh
