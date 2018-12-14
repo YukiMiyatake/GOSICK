@@ -26,16 +26,16 @@ const (
 
 type SlackListener struct {
 	client    *slack.Client
-	botID     string
-	channelID string
+	botID     *string
+	channelID *string
 	rtm       *slack.RTM
 
 	//	allmsg		map[string]func([]string)string
 	//	mention		map[string]func([]string)string
 	// TODO: オブジェクト化する
 	// TODO: mentionと通常メッセージ分けるかも
-	allmsg  map[string]plugin.Symbol
-	mention map[string]plugin.Symbol
+	allmsg  *map[string]plugin.Symbol
+	mention *map[string]plugin.Symbol
 }
 
 // MessageEvent を待ち受け
@@ -59,7 +59,7 @@ func (s *SlackListener) ListenAndResponse() {
 // MessageEvent を処理
 func (s *SlackListener) handleMessageEvent(ev *slack.MessageEvent) error {
 	// Validate section
-	if ev.Channel != s.channelID {
+	if ev.Channel != *s.channelID {
 		log.Printf("%s %s", ev.Channel, ev.Msg.Text)
 		return nil
 	}
@@ -71,16 +71,16 @@ func (s *SlackListener) handleMessageEvent(ev *slack.MessageEvent) error {
 	//if (strings.HasPrefix(ev.Msg.Text, s.botID) ||
 	//	strings.HasPrefix(ev.Msg.Text, "<@" + s.botID + "%s>" )) {
 	log.Printf(ev.Msg.Text)
-	if (msgs[0] == "regina") || (msgs[0] == "<@"+s.botID+"%s>") {
+	if (msgs[0] == "regina") || (msgs[0] == "<@"+ *s.botID+"%s>") {
 		//	if ( msgs[0] == s.botID ) || ( msgs[0] == "<@" + s.botID + "%s>" ){
 
 		log.Printf("my message")
-		for key, value := range s.mention {
+		for key, value := range *s.mention {
 
 			if msgs[1] == key {
 				// TODO: 引数をjoinしておく？
 				// TODO: 引数をポインタにする
-				s.rtm.SendMessage(s.rtm.NewOutgoingMessage(value.(func([]string) string)(msgs[2:]), s.channelID))
+				s.rtm.SendMessage(s.rtm.NewOutgoingMessage(value.(func([]string) string)(msgs[2:]), *s.channelID))
 				return nil
 			}
 
