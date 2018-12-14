@@ -10,12 +10,8 @@ import (
 	"bufio"
 	"strings"
 	"os"
-	//	"plugins/echo"
-	"plugin"
-	//  "echo"
+	"github.com/YukiMiyatake/GOSICK/util"
 
-	"io/ioutil"
-	"encoding/json"
 )
 
 type cmdConfig struct {
@@ -29,48 +25,22 @@ func main() {
 func _main(args []string) int {
 	log.Printf("[Info] Start CommandLine driver ")
 
-/*
-	va := []int  {1, 2, 3, 4}
-	log.Printf( strconv.FormatBool( Contains( va, "1")) )
-	log.Printf(strconv.FormatBool(Contains( va, 100)))
+	sc := util.SlackConfig{}
+	err := sc.LoadSlackConfig("./slack.json")
 
-	vs := []string  {"1", "2", "3", "4"}
-	log.Printf( strconv.FormatBool( Contains( vs, "1")) )
-*/
-
-	jsonData, err := ioutil.ReadFile("./slack.json")
-	if err != nil {
-		log.Print("error")
+	if(err != nil){
+		log.Printf("[Error] %s", err)
+		return 1
 	}
 
-	var cc cmdConfig
+	pm := util.NewPluginManager()
+	pm.LoadPlugins("./plugin.json")
 
-	err = json.Unmarshal(jsonData, &cc)
-	if err != nil {
-		log.Print("error")
-	}
-	//client.SetDebug(true)
-//	var allmsg = map[string]plugin.Symbol{}
-	var mention = map[string]plugin.Symbol{}
-
-	pluginJson, err := ioutil.ReadFile("./plugin.json")
 	if err != nil {
 		log.Printf("[Error] %s", err)
 		return 1
 	}
-	type PluginData struct {
-		Name string `json:"NAME"`
-		Path string `json:"PATH"`
-	}
-	var pd []PluginData
-	err = json.Unmarshal(pluginJson, &pd)
-	if err != nil {
-		log.Printf("[Error] %s", err)
-		return 1
-	}
-	for _, p := range pd {
-		loadPlugin(&mention, p.Name, p.Path)
-	}
+
 
 //*
 //	コマンドライン入力
@@ -85,9 +55,9 @@ func _main(args []string) int {
 
 		msgs := strings.Fields( text )
 		// TODO: load from Env or JSON
-		if (Contains( cc.BotName, msgs[0])) {
+		if (util.Contains( sc.BotName, msgs[0])) {
 //		if (msgs[0] == "regina") {
-			for key, value := range mention {
+			for key, value := range pm.Mention {
 				if msgs[1] == key {
 					log.Print(value.(func([]string) string)(msgs[2:]))
 				}
