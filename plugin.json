@@ -1,9 +1,5 @@
 [
   {
-    "NAME": "memo",
-    "PATH": "plugins/memo/memo.so"
-  },
-  {
     "NAME": "echo",
     "PATH": "plugins/echo/echo.so"
   }

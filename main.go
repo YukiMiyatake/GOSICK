@@ -26,9 +26,8 @@ import (
 	"log"
 	"net/http"
 	"os"
-	//	"plugins/echo"
 	"plugin"
-	//  "echo"
+	"github.com/YukiMiyatake/GOSICK/util"
 
 	"github.com/nlopes/slack"
 	"io/ioutil"
@@ -43,29 +42,83 @@ type slackConfig struct {
 	ChannelID         string `json:"CHANNEL_ID"`
 }
 
+
 func main() {
 	os.Exit(_main(os.Args[1:]))
 }
 
-func _main(args []string) int {
-	jsonData, err := ioutil.ReadFile("./slack.json")
-	if err != nil {
-		log.Printf("[Error] %s", err)
-		return 1
-	}
 
+func LoadSlackSettings(file string)(slackConfig, error){
 	var sc slackConfig
 
+	jsonData, err := ioutil.ReadFile(file)
+	if err != nil {
+		log.Printf("[Error] %s", err)
+		return sc, err
+	}
 	err = json.Unmarshal(jsonData, &sc)
 	if err != nil {
 		log.Printf("[Error] %s", err)
-		return 1
+		return sc, err
 	}
 
+	return sc, nil
+}
+
+
+type PluginData struct {
+	Name string `json:"NAME"`
+	Path string `json:"PATH"`
+}
+type PluginManager struct {
+	allmsg  map[string]plugin.Symbol
+	mention map[string]plugin.Symbol
+
+}
+
+func NewPluginManager()(*PluginManager){
+	pm := PluginManager{}
+	pm.allmsg = map[string]plugin.Symbol{}
+	pm.mention = map[string]plugin.Symbol{}
+
+	return &pm
+}
+
+func (s *PluginManager) LoadPlugins(file string)(error){
+
+	pluginJson, err := ioutil.ReadFile(file)
+	if err != nil {
+		log.Printf("[Error] %s", err)
+		return err
+	}
+
+	var pd []PluginData
+	err = json.Unmarshal(pluginJson, &pd)
+	if err != nil {
+		log.Printf("[Error] %s", err)
+		return err
+	}
+
+	for _, p := range pd {
+		util.LoadPlugin(&s.mention, p.Name, p.Path)
+	}
+	return nil
+}
+
+
+
+func _main(args []string) int {
+	sc,err := LoadSlackSettings("./slack.json")
+
+	if(err != nil){
+		log.Printf("[Error] %s", err)
+		return 1
+	}
 
 	log.Printf("[Info] Start slack event listening ")
 	client := slack.New(sc.BotToken)
 
+	/*
 	//client.SetDebug(true)
 	var allmsg = map[string]plugin.Symbol{}
 	var mention = map[string]plugin.Symbol{}
@@ -76,10 +129,6 @@ func _main(args []string) int {
 		return 1
 	}
 
-	type PluginData struct {
-		Name string `json:"NAME"`
-		Path string `json:"PATH"`
-	}
 
 	var pd []PluginData
 	err = json.Unmarshal(pluginJson, &pd)
@@ -91,13 +140,21 @@ func _main(args []string) int {
 	for _, p := range pd {
 		loadPlugin(&mention, p.Name, p.Path)
 	}
-
+//*/
+//*
+	pm := NewPluginManager()
+	pm.LoadPlugins("./plugin.json")
+	if err != nil {
+		log.Printf("[Error] %s", err)
+		return 1
+	}
+//*/
 	slackListener := &SlackListener{
 		client:    client,
 		botID:     sc.BotID,
 		channelID: sc.ChannelID,
-		allmsg:    allmsg,
-		mention:   mention,
+		allmsg:    pm.allmsg,
+		mention:   pm.mention,
 	}
 
 	go slackListener.ListenAndResponse()
