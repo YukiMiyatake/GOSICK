@@ -1,7 +1,7 @@
-ChatopsBOT
+#ChatopsBOT
 
----------------------------------------- 設定ファイル
----- slack設定
+#設定ファイル
+##slack設定
 sample/slack.json.orgをもとにルートディレクトリにslack.jsonを設置する
 
 

@@ -34,7 +34,7 @@ type SlackListener struct {
 	//	mention		map[string]func([]string)string
 	// TODO: オブジェクト化する
 	// TODO: mentionと通常メッセージ分けるかも
-	allmsg  *map[string]plugin.Symbol
+	promiscous  *map[string]plugin.Symbol
 	mention *map[string]plugin.Symbol
 }
 
@@ -74,7 +74,7 @@ func (s *SlackListener) handleMessageEvent(ev *slack.MessageEvent) error {
 	if (msgs[0] == "regina") || (msgs[0] == "<@"+ *s.botID+"%s>") {
 		//	if ( msgs[0] == s.botID ) || ( msgs[0] == "<@" + s.botID + "%s>" ){
 
-		log.Printf("my message")
+		log.Printf("*mention*")
 		for key, value := range *s.mention {
 
 			if msgs[1] == key {

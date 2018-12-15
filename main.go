@@ -61,7 +61,7 @@ func _main(args []string) int {
 		client:    client,
 		botID:     &sc.BotID,
 		channelID: &sc.ChannelID,
-		allmsg:    &pm.Promiscuous,
+		promiscous:    &pm.Promiscuous,
 		mention:   &pm.Mention,
 	}
 
