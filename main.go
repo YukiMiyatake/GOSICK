@@ -29,6 +29,7 @@ import (
 	//	"plugins/echo"
 	"plugin"
 	//  "echo"
+	"./util"
 
 	"github.com/nlopes/slack"
 	"io/ioutil"
@@ -99,7 +100,7 @@ func (s *PluginManager) LoadPlugins(file string)(error){
 	}
 
 	for _, p := range pd {
-		loadPlugin(&s.mention, p.Name, p.Path)
+		util.LoadPlugin(&s.mention, p.Name, p.Path)
 	}
 	return nil
 }
