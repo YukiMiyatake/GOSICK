@@ -26,9 +26,7 @@ import (
 	"log"
 	"net/http"
 	"os"
-	//	"plugins/echo"
 	"plugin"
-	//  "echo"
 	"./util"
 
 	"github.com/nlopes/slack"
