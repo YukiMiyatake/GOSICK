@@ -27,7 +27,7 @@ import (
 	"net/http"
 	"os"
 	"plugin"
-	"./util"
+	"github.com/YukiMiyatake/GOSICK/util"
 
 	"github.com/nlopes/slack"
 	"io/ioutil"
