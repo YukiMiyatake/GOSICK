@@ -66,6 +66,19 @@ func LoadSlackSettings(file string)(slackConfig, error){
 }
 
 
+type PluginManager struct {
+	allmsg map[string]plugin.Symbol
+	mention map[string]plugin.Symbol
+}
+
+func NewPluginManager()(*PluginManager){
+	pm := PluginManager{}
+	pm.allmsg = map[string]plugin.Symbol{}
+	pm.mention = map[string]plugin.Symbol{}
+
+	return &pm
+}
+
 func _main(args []string) int {
 	sc,err := LoadSlackSettings("./slack.json")
 
@@ -78,8 +91,7 @@ func _main(args []string) int {
 	client := slack.New(sc.BotToken)
 
 	//client.SetDebug(true)
-	var allmsg = map[string]plugin.Symbol{}
-	var mention = map[string]plugin.Symbol{}
+	pm := NewPluginManager()
 
 	pluginJson, err := ioutil.ReadFile("./plugin.json")
 	if err != nil {
@@ -100,15 +112,15 @@ func _main(args []string) int {
 	}
 
 	for _, p := range pd {
-		loadPlugin(&mention, p.Name, p.Path)
+		loadPlugin(&pm.mention, p.Name, p.Path)
 	}
 
 	slackListener := &SlackListener{
 		client:    client,
 		botID:     sc.BotID,
 		channelID: sc.ChannelID,
-		allmsg:    allmsg,
-		mention:   mention,
+		allmsg:    pm.allmsg,
+		mention:   pm.mention,
 	}
 
 	go slackListener.ListenAndResponse()
