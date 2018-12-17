@@ -66,6 +66,11 @@ func LoadSlackSettings(file string)(slackConfig, error){
 }
 
 
+type PluginData struct {
+	Name string `json:"NAME"`
+	Path string `json:"PATH"`
+}
+
 type PluginManager struct {
 	allmsg map[string]plugin.Symbol
 	mention map[string]plugin.Symbol
@@ -77,6 +82,26 @@ func NewPluginManager()(*PluginManager){
 	pm.mention = map[string]plugin.Symbol{}
 
 	return &pm
+}
+
+func (s *PluginManager) LoadPlugins(file string)(error){
+	pluginJson, err := ioutil.ReadFile(file)
+	if err != nil {
+		log.Printf("[Error] %s", err)
+		return err
+	}
+
+	var pd []PluginData
+	err = json.Unmarshal(pluginJson, &pd)
+	if err != nil {
+		log.Printf("[Error] %s", err)
+		return err
+	}
+
+	for _, p := range pd {
+		loadPlugin(&s.mention, p.Name, p.Path)
+	}
+	return nil
 }
 
 func _main(args []string) int {
@@ -92,27 +117,10 @@ func _main(args []string) int {
 
 	//client.SetDebug(true)
 	pm := NewPluginManager()
-
-	pluginJson, err := ioutil.ReadFile("./plugin.json")
+	pm.LoadPlugins("./plugin.json")
 	if err != nil {
 		log.Printf("[Error] %s", err)
 		return 1
-	}
-
-	type PluginData struct {
-		Name string `json:"NAME"`
-		Path string `json:"PATH"`
-	}
-
-	var pd []PluginData
-	err = json.Unmarshal(pluginJson, &pd)
-	if err != nil {
-		log.Printf("[Error] %s", err)
-		return 1
-	}
-
-	for _, p := range pd {
-		loadPlugin(&pm.mention, p.Name, p.Path)
 	}
 
 	slackListener := &SlackListener{
