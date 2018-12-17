@@ -57,10 +57,10 @@ func _main(args []string) int {
 
 	slackListener := &SlackListener{
 		client:    client,
-		botID:     sc.BotID,
-		channelID: sc.ChannelID,
-		allmsg:    pm.Allmsg,
-		mention:   pm.Mention,
+		botID:     &sc.BotID,
+		channelID: &sc.ChannelID,
+		allmsg:    &pm.Allmsg,
+		mention:   &pm.Mention,
 	}
 
 	go slackListener.ListenAndResponse()
