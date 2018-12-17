@@ -47,22 +47,33 @@ func main() {
 	os.Exit(_main(os.Args[1:]))
 }
 
-func _main(args []string) int {
-	jsonData, err := ioutil.ReadFile("./slack.json")
+func LoadSlackSettings(file string)(slackConfig, error){
+	var sc slackConfig
+	
+	jsonData, err := ioutil.ReadFile(file)
 	if err != nil {
 		log.Printf("[Error] %s", err)
-		return 1
+		return sc, err
 	}
-
-	var sc slackConfig
 
 	err = json.Unmarshal(jsonData, &sc)
 	if err != nil {
 		log.Printf("[Error] %s", err)
+		return sc, err
+	}
+	
+	return sc, nil
+}
+
+
+func _main(args []string) int {
+	sc,err := LoadSlackSettings("./slack.json")
+
+	if(err != nil){
+		log.Printf("[Error] %s", err)
 		return 1
 	}
-
-
+		
 	log.Printf("[Info] Start slack event listening ")
 	client := slack.New(sc.BotToken)
 
