@@ -29,42 +29,15 @@ import (
 	"github.com/YukiMiyatake/GOSICK/util"
 
 	"github.com/nlopes/slack"
-	"io/ioutil"
-	"encoding/json"
 )
-
-type slackConfig struct {
-	Port              string `json:"PORT"`
-	BotToken          string `json:"BOT_TOKEN"`
-	VerificationToken string `json:"VERIFICATION_TOKEN"`
-	BotID             string `json:"BOT_ID"`
-	ChannelID         string `json:"CHANNEL_ID"`
-}
 
 func main() {
 	os.Exit(_main(os.Args[1:]))
 }
 
-func LoadSlackSettings(file string)(slackConfig, error){
-	var sc slackConfig
-	
-	jsonData, err := ioutil.ReadFile(file)
-	if err != nil {
-		log.Printf("[Error] %s", err)
-		return sc, err
-	}
-
-	err = json.Unmarshal(jsonData, &sc)
-	if err != nil {
-		log.Printf("[Error] %s", err)
-		return sc, err
-	}
-	
-	return sc, nil
-}
-
 func _main(args []string) int {
-	sc,err := LoadSlackSettings("./slack.json")
+	sc := util.SlackConfig{}
+	err := sc.LoadSlackSettings("./slack.json")
 
 	if(err != nil){
 		log.Printf("[Error] %s", err)
