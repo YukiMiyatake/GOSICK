@@ -49,20 +49,10 @@ func _main(args []string) int {
 	log.Printf("[Info] Start slack event listening ")
 	client := slack.New(sc.BotToken)
 
-
-	pm := util.NewPluginManager()
-	pm.LoadPlugins("./plugin.json")
-	if err != nil {
-		log.Printf("[Error] %s", err)
-		return 1
-	}
-
 	slackListener := &SlackListener{
 		client:    client,
 		botID:     &sc.BotID,
 		channelID: &sc.ChannelID,
-		promiscous:    &pm.Promiscuous,
-		mention:   &pm.Mention,
 	}
 
 	go slackListener.ListenAndResponse()
