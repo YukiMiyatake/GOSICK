@@ -4,6 +4,7 @@ import (
 	//	"fmt"
 //	"fmt"
 	"log"
+	"plugin"
 	"strings"
 	//	"map"
 //	"sort"
@@ -15,7 +16,6 @@ import (
 //	"github.com/aws/aws-sdk-go/service/ecr"
 
 	"github.com/nlopes/slack"
-	"github.com/YukiMiyatake/GOSICK/util"
 )
 
 const (
@@ -29,6 +29,13 @@ type SlackListener struct {
 	botID     *string
 	channelID *string
 	rtm       *slack.RTM
+
+	//	allmsg		map[string]func([]string)string
+	//	mention		map[string]func([]string)string
+	// TODO: オブジェクト化する
+	// TODO: mentionと通常メッセージ分けるかも
+	promiscous  *map[string]plugin.Symbol
+	mention *map[string]plugin.Symbol
 }
 
 // MessageEvent を待ち受け
@@ -67,11 +74,16 @@ func (s *SlackListener) handleMessageEvent(ev *slack.MessageEvent) error {
 	if (msgs[0] == "regina") || (msgs[0] == "<@"+ *s.botID+"%s>") {
 		//	if ( msgs[0] == s.botID ) || ( msgs[0] == "<@" + s.botID + "%s>" ){
 
-		st := util.NewSlackSendType()
-		err := st.SendSlackMessage(*s.channelID, msgs, s.rtm)
-		if err != nil {
-			log.Printf("[Error] %s", err)
-			return err
+		log.Printf("*mention*")
+		for key, value := range *s.mention {
+
+			if msgs[1] == key {
+				// TODO: 引数をjoinしておく？
+				// TODO: 引数をポインタにする
+				s.rtm.SendMessage(s.rtm.NewOutgoingMessage(value.(func([]string) string)(msgs[2:]), *s.channelID))
+				return nil
+			}
+
 		}
 
 		//		s.rtm.SendMessage(s.rtm.NewOutgoingMessage("なぁに？ " + strings.Join(msgs[1:], " " ), s.channelID))
