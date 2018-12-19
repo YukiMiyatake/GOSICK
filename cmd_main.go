@@ -55,7 +55,7 @@ func _main(args []string) int {
 
 		msgs := strings.Fields( text )
 		// TODO: load from Env or JSON
-		md := util.NewMessageDispatcher( sc.BotName, sc.BotID)
+		md := util.NewMessageDispatcher( &sc.BotName, &sc.BotID)
 		if (md.GetMessageType(msgs[0]) == util.Mention) {
 			for key, value := range pm.Mention {
 				if msgs[1] == key {

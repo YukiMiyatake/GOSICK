@@ -9,17 +9,17 @@ type MessageDispatcher struct {
 	BotID      string
 }
 
-type MessageType string
+type MessageType int
 const (
-	Mention MessageType = "Mention"
-	Promiscous MessageType = "Promiscous"
-	Error MessageType = "Error"
+	Mention MessageType = iota
+	Promiscous
+	NoMatch
 )
 
-func NewMessageDispatcher(botName []string, botID string)(*MessageDispatcher){
+func NewMessageDispatcher(botName *[]string, botID *string)(*MessageDispatcher){
 	s := MessageDispatcher{}
-	s.BotName = botName
-	s.BotID = botID
+	s.BotName = *botName
+	s.BotID = *botID
 	return &s
 }
 
@@ -27,5 +27,5 @@ func (s *MessageDispatcher) GetMessageType(botID string)(MessageType){
 	if(Contains( s.BotName, botID) || Contains( s.BotID, botID)){
 		return Mention
 	}
-	return Error
+	return NoMatch
 }

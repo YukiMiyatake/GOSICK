@@ -73,7 +73,7 @@ func (s *SlackListener) handleMessageEvent(ev *slack.MessageEvent) error {
 	//if (strings.HasPrefix(ev.Msg.Text, s.botID) ||
 	//	strings.HasPrefix(ev.Msg.Text, "<@" + s.botID + "%s>" )) {
 	log.Printf(ev.Msg.Text)
-	md := util.NewMessageDispatcher(*s.botName, *s.botID)
+	md := util.NewMessageDispatcher(s.botName, s.botID)
 	if (md.GetMessageType(msgs[0]) == util.Mention) {
 
 		log.Printf("*mention*")
