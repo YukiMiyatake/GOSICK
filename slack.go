@@ -16,6 +16,7 @@ import (
 //	"github.com/aws/aws-sdk-go/service/ecr"
 
 	"github.com/nlopes/slack"
+	"github.com/YukiMiyatake/GOSICK/util"
 )
 
 const (
@@ -27,6 +28,7 @@ const (
 type SlackListener struct {
 	client    *slack.Client
 	botID     *string
+	botName   *[]string
 	channelID *string
 	rtm       *slack.RTM
 
@@ -71,8 +73,8 @@ func (s *SlackListener) handleMessageEvent(ev *slack.MessageEvent) error {
 	//if (strings.HasPrefix(ev.Msg.Text, s.botID) ||
 	//	strings.HasPrefix(ev.Msg.Text, "<@" + s.botID + "%s>" )) {
 	log.Printf(ev.Msg.Text)
-	if (msgs[0] == "regina") || (msgs[0] == "<@"+ *s.botID+"%s>") {
-		//	if ( msgs[0] == s.botID ) || ( msgs[0] == "<@" + s.botID + "%s>" ){
+	md := util.NewMessageDispatcher(s.botName, s.botID)
+	if (md.GetMessageType(msgs[0]) == util.Mention) {
 
 		log.Printf("*mention*")
 		for key, value := range *s.mention {
