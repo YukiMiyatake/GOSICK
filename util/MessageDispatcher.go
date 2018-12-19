@@ -1,7 +1,7 @@
 package util
 
 import (
-	"log"
+	// "log"
 )
 
 type MessageDispatcher struct {
@@ -9,26 +9,23 @@ type MessageDispatcher struct {
 	BotID      string
 }
 
-func NewMessageDispatcher()(*MessageDispatcher){
+type MessageType string
+const (
+	Mention MessageType = "Mention"
+	Promiscous MessageType = "Promiscous"
+	Error MessageType = "Error"
+)
+
+func NewMessageDispatcher(botName []string, botID string)(*MessageDispatcher){
 	s := MessageDispatcher{}
-
-	sc := SlackConfig{}
-	err := sc.LoadSlackConfig("./slack.json")
-	if(err != nil){
-		log.Printf("[Error] %s", err)
-		return &s
-	}
-	s.BotName = sc.BotName
-	s.BotID = sc.BotID
-
+	s.BotName = botName
+	s.BotID = botID
 	return &s
 }
 
-func (s *MessageDispatcher) ContainBot(botID string)(string){
-
-	if(botID == "regina" || Contains( s.BotName, botID) || Contains( s.BotID, botID)){
-		return "mention"
+func (s *MessageDispatcher) GetMessageType(botID string)(MessageType){
+	if(Contains( s.BotName, botID) || Contains( s.BotID, botID)){
+		return Mention
 	}
-	return "err"
+	return Error
 }
-

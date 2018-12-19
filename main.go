@@ -60,6 +60,7 @@ func _main(args []string) int {
 	slackListener := &SlackListener{
 		client:    client,
 		botID:     &sc.BotID,
+		botName:   &sc.BotName,
 		channelID: &sc.ChannelID,
 		promiscous:    &pm.Promiscuous,
 		mention:   &pm.Mention,
