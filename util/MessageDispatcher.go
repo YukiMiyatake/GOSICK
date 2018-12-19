@@ -1,18 +1,34 @@
 package util
 
 import (
-	// "plugin"
-	// "log"
-	// "github.com/nlopes/slack"
+	"log"
 )
 
-
 type MessageDispatcher struct {
-	//	allmsg		map[string]func([]string)string
-	//	mention		map[string]func([]string)string
-	// TODO: オブジェクト化する
-	// TODO: mentionと通常メッセージ分けるかも
-	// Promiscuous  map[string]plugin.Symbol
-	// Mention     map[string]plugin.Symbol
+	BotName  []string
+	BotID      string
+}
+
+func NewMessageDispatcher()(*MessageDispatcher){
+	s := MessageDispatcher{}
+
+	sc := SlackConfig{}
+	err := sc.LoadSlackConfig("./slack.json")
+	if(err != nil){
+		log.Printf("[Error] %s", err)
+		return &s
+	}
+	s.BotName = sc.BotName
+	s.BotID = sc.BotID
+
+	return &s
+}
+
+func (s *MessageDispatcher) ContainBot(botID string)(string){
+
+	if(botID == "regina" || Contains( s.BotName, botID) || Contains( s.BotID, botID)){
+		return "mention"
+	}
+	return "err"
 }
 
