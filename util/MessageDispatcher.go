@@ -5,8 +5,8 @@ import (
 )
 
 type MessageDispatcher struct {
-	BotName  []string
-	BotID      string
+	BotName  *[]string
+	BotID      *string
 }
 
 type MessageType int
@@ -18,13 +18,13 @@ const (
 
 func NewMessageDispatcher(botName *[]string, botID *string)(*MessageDispatcher){
 	s := MessageDispatcher{}
-	s.BotName = *botName
-	s.BotID = *botID
+	s.BotName = botName
+	s.BotID = botID
 	return &s
 }
 
 func (s *MessageDispatcher) GetMessageType(botID string)(MessageType){
-	if(Contains( s.BotName, botID) || Contains( s.BotID, botID)){
+	if(Contains( *s.BotName, botID) || Contains( *s.BotID, botID)){
 		return Mention
 	}
 	return NoMatch
