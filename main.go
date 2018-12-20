@@ -38,24 +38,13 @@ func main() {
 }
 
 func _main(args []string) int {
-	sc := util.SlackConfig{}
-	err := sc.LoadSlackConfig("./slack.json")
-
-	if(err != nil){
-		log.Printf("[Error] %s", err)
-		return 1
-	}
-
+	sc := util.GetSlackConfigInstance()
+	
 	log.Printf("[Info] Start slack event listening ")
 	client := slack.New(sc.BotToken)
 
-
 	pm := util.NewPluginManager()
 	pm.LoadPlugins("./plugin.json")
-	if err != nil {
-		log.Printf("[Error] %s", err)
-		return 1
-	}
 
 	slackListener := &SlackListener{
 		client:    client,

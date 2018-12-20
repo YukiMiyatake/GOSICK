@@ -6,7 +6,7 @@ import (
 	"encoding/json"
 )
 
-type SlackConfig struct {
+type slackConfig struct {
 	Port              string `json:"PORT"`
 	BotToken          string `json:"BOT_TOKEN"`
 	VerificationToken string `json:"VERIFICATION_TOKEN"`
@@ -15,11 +15,23 @@ type SlackConfig struct {
 	ChannelID         string `json:"CHANNEL_ID"`
 }
 
-func Hoge(){
+var slackConfigInstance *slackConfig = newSingleton("./slack.json")
 
+func newSingleton(file string) *slackConfig {
+	sc := &slackConfig{}
+	err := sc.loadslackConfig(file)
+	if(err != nil){
+		log.Printf("[Error] %s", err)
+		return sc
+	}
+	return sc
 }
-func (s *SlackConfig) LoadSlackConfig(file string)(error){
-//	var sc slackConfig
+
+func GetSlackConfigInstance() *slackConfig {
+	return slackConfigInstance
+}
+
+func (s *slackConfig) loadslackConfig(file string)(error){
 
 	jsonData, err := ioutil.ReadFile(file)
 	if err != nil {

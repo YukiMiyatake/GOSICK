@@ -25,22 +25,10 @@ func main() {
 func _main(args []string) int {
 	log.Printf("[Info] Start CommandLine driver ")
 
-	sc := util.SlackConfig{}
-	err := sc.LoadSlackConfig("./slack.json")
-
-	if(err != nil){
-		log.Printf("[Error] %s", err)
-		return 1
-	}
+	sc := util.GetSlackConfigInstance()
 
 	pm := util.NewPluginManager()
 	pm.LoadPlugins("./plugin.json")
-
-	if err != nil {
-		log.Printf("[Error] %s", err)
-		return 1
-	}
-
 
 //*
 //	コマンドライン入力
