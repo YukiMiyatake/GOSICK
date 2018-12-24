@@ -7,24 +7,16 @@ package main
 
 import (
 	"log"
-	"bufio"
-	"strings"
 	"os"
 	"github.com/YukiMiyatake/GOSICK/util"
 
 )
-
-type cmdConfig struct {
-	BotName             []string `json:"BOT_NAME"`
-}
 
 func main() {
 	os.Exit(_main(os.Args[1:]))
 }
 
 func _main(args []string) int {
-	log.Printf("[Info] Start CommandLine driver ")
-
 	sc := util.SlackConfig{}
 	err := sc.LoadSlackConfig("./slack.json")
 
@@ -44,26 +36,10 @@ func _main(args []string) int {
 
 //*
 //	コマンドライン入力
+	echo := util.LoadOutputProcess("plugins/cmd/cmd.so")
+	echo.(func(util.SlackConfig, *util.PluginManager))(sc, pm)
 
-	stdin := bufio.NewScanner(os.Stdin)
-	for stdin.Scan(){
-		text := stdin.Text()
-		log.Print(text)
-		if(  strings.ToLower(text) == "quit"){
-			break
-		}
 
-		msgs := strings.Fields( text )
-		// TODO: load from Env or JSON
-		md := util.NewMessageDispatcher( &sc.BotName, &sc.BotID)
-		if (md.GetMessageType(msgs[0]) == util.Mention) {
-			for key, value := range pm.Mention {
-				if msgs[1] == key {
-					log.Print(value.(func([]string) string)(msgs[2:]))
-				}
-			}
-		}
-	}
 
 
 		//*/
