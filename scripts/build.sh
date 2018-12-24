@@ -7,6 +7,10 @@ cd plugins/echo
 go build --buildmode=plugin
 cd ../..
 
+cd plugins/cmd
+go build --buildmode=plugin
+cd ../..
+
 #cd plugins/aws
 #go build --buildmode=plugin
 #cd ../..

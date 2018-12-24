@@ -11,12 +11,11 @@ type PluginData struct {
 	Name string `json:"NAME"`
 	Path string `json:"PATH"`
 }
+
 type PluginManager struct {
 	Promiscuous  map[string]plugin.Symbol
 	Mention map[string]plugin.Symbol
-
 }
-
 
 func NewPluginManager()(*PluginManager){
 	s := PluginManager{}
