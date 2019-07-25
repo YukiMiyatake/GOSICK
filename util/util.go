@@ -1,12 +1,27 @@
 package util
 
 import (
+	"encoding/json"
+	"io/ioutil"
 	"log"
 	"reflect"
 )
 
 //////// container lib algorithm
 // TODO: package
+
+func JsonFileLoader(file string, data interface{}) error {
+	jsonData, err := ioutil.ReadFile(file)
+	if err != nil {
+		return err
+	}
+	err = json.Unmarshal(jsonData, data)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
 
 func Copy(arr interface{}) []interface{} {
 	dest := make([]interface{}, 0)
@@ -30,22 +45,22 @@ func Copy(arr interface{}) []interface{} {
 	return dest
 }
 
-
-func Contains(i interface{}, val interface{}) bool{
+func Contains(i interface{}, val interface{}) bool {
 	arr := Copy(i)
 
-	if(reflect.TypeOf(arr[0]) != reflect.TypeOf(val)){
-		log.Printf("missmatch Type in Contains [%s] and [%s]",reflect.TypeOf(arr[0]) ,reflect.TypeOf(val) )
+	if reflect.TypeOf(arr[0]) != reflect.TypeOf(val) {
+		log.Printf("missmatch Type in Contains [%s] and [%s]", reflect.TypeOf(arr[0]), reflect.TypeOf(val))
 		panic(0)
 	}
 
-	for _, v := range arr{
-		if v == val{
+	for _, v := range arr {
+		if v == val {
 			return true
 		}
 	}
 	return false
 }
+
 /*
 func AllOf(arr []Traits, val Traits) bool{
 	for _, v := range arr{
@@ -77,5 +92,3 @@ func CountIf(arr []Traits, val Traits) int{
 
 */
 /////////
-
-

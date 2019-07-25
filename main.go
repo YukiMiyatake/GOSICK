@@ -26,22 +26,19 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"github.com/YukiMiyatake/GOSICK/util"
+	"util"
 
 	"github.com/nlopes/slack"
 )
-
-
 
 func main() {
 	os.Exit(_main(os.Args[1:]))
 }
 
 func _main(args []string) int {
-	sc := util.SlackConfig{}
-	err := sc.LoadSlackConfig("./slack.json")
+	sc, err := util.NewSlackConfig("./slack.json")
 
-	if(err != nil){
+	if err != nil {
 		log.Printf("[Error] %s", err)
 		return 1
 	}
@@ -49,21 +46,19 @@ func _main(args []string) int {
 	log.Printf("[Info] Start slack event listening ")
 	client := slack.New(sc.BotToken)
 
-
-	pm := util.NewPluginManager()
-	pm.LoadPlugins("./plugin.json")
+	pm, err := util.NewPluginManager("./plugin.json")
 	if err != nil {
 		log.Printf("[Error] %s", err)
 		return 1
 	}
 
 	slackListener := &SlackListener{
-		client:    client,
-		botID:     &sc.BotID,
-		botName:   &sc.BotName,
-		channelID: &sc.ChannelID,
-		promiscous:    &pm.Promiscuous,
-		mention:   &pm.Mention,
+		client:     client,
+		botID:      &sc.BotID,
+		botName:    &sc.BotName,
+		channelID:  &sc.ChannelID,
+		promiscous: &pm.Promiscuous,
+		mention:    &pm.Mention,
 	}
 
 	go slackListener.ListenAndResponse()
@@ -80,4 +75,3 @@ func _main(args []string) int {
 
 	return 0
 }
-

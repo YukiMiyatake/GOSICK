@@ -2,21 +2,22 @@ package main
 
 import (
 	//	"fmt"
-//	"fmt"
+	//	"fmt"
 	"log"
 	"plugin"
 	"strings"
+
 	//	"map"
-//	"sort"
-//	"time"
+	//	"sort"
+	//	"time"
 
-//	"github.com/aws/aws-sdk-go/aws"
+	//	"github.com/aws/aws-sdk-go/aws"
 	//	"github.com/aws/aws-sdk-go/service/ec2"
-//	"github.com/aws/aws-sdk-go/aws/session"
-//	"github.com/aws/aws-sdk-go/service/ecr"
+	//	"github.com/aws/aws-sdk-go/aws/session"
+	//	"github.com/aws/aws-sdk-go/service/ecr"
 
-	"github.com/nlopes/slack"
 	"github.com/YukiMiyatake/GOSICK/util"
+	"github.com/nlopes/slack"
 )
 
 const (
@@ -36,8 +37,8 @@ type SlackListener struct {
 	//	mention		map[string]func([]string)string
 	// TODO: オブジェクト化する
 	// TODO: mentionと通常メッセージ分けるかも
-	promiscous  *map[string]plugin.Symbol
-	mention *map[string]plugin.Symbol
+	promiscous *map[string]plugin.Symbol
+	mention    *map[string]plugin.Symbol
 }
 
 // MessageEvent を待ち受け
@@ -68,13 +69,13 @@ func (s *SlackListener) handleMessageEvent(ev *slack.MessageEvent) error {
 
 	// TODO: BOTからのメッセージ除外したい
 	// TODO: メンションだとIDがはいってくるので変換・・
-//	msgs := strings.Split(strings.TrimSpace(ev.Msg.Text), " ")
+	//	msgs := strings.Split(strings.TrimSpace(ev.Msg.Text), " ")
 	msgs := strings.Fields(ev.Msg.Text)
 	//if (strings.HasPrefix(ev.Msg.Text, s.botID) ||
 	//	strings.HasPrefix(ev.Msg.Text, "<@" + s.botID + "%s>" )) {
 	log.Printf(ev.Msg.Text)
 	md := util.NewMessageDispatcher(s.botName, s.botID)
-	if (md.GetMessageType(msgs[0]) == util.Mention) {
+	if md.GetMessageType(msgs[0]) == util.Mention {
 
 		log.Printf("*mention*")
 		for key, value := range *s.mention {
@@ -145,4 +146,3 @@ func (s *SlackListener) handleMessageEvent(ev *slack.MessageEvent) error {
 	*/
 	return nil
 }
-

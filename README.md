@@ -1,3 +1,14 @@
 # GOSICK
-aws deploy chat-ops bot for Slack
+Chat-Ops Bot for Slack
+
+
+#plugin
+
+
+##aws
+AWS
+
+
+
+
 

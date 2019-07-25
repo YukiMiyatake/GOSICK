@@ -5,7 +5,7 @@ import (
 	"plugin"
 )
 
-func LoadOutputProcess(path string)(plugin.Symbol){
+func LoadOutputProcess(path string) plugin.Symbol {
 	log.Printf("loadPlugin:" + path)
 
 	p, err := plugin.Open(path)
@@ -17,6 +17,6 @@ func LoadOutputProcess(path string)(plugin.Symbol){
 	if err != nil {
 		log.Printf("fail to Lookup 'Echo'")
 	}
-  
+
 	return echo
 }

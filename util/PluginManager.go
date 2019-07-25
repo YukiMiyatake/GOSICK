@@ -1,10 +1,10 @@
 package util
 
 import (
-	"plugin"
+	"encoding/json"
 	"io/ioutil"
 	"log"
-	"encoding/json"
+	"plugin"
 )
 
 type PluginData struct {
@@ -13,19 +13,21 @@ type PluginData struct {
 }
 
 type PluginManager struct {
-	Promiscuous  map[string]plugin.Symbol
-	Mention map[string]plugin.Symbol
+	Promiscuous map[string]plugin.Symbol
+	Mention     map[string]plugin.Symbol
 }
 
-func NewPluginManager()(*PluginManager){
+func NewPluginManager(file string) (*PluginManager, error) {
 	s := PluginManager{}
 	s.Promiscuous = map[string]plugin.Symbol{}
 	s.Mention = map[string]plugin.Symbol{}
 
-	return &s
+	err := s.loadPlugins(file)
+
+	return &s, err
 }
 
-func (s *PluginManager) LoadPlugins(file string)(error){
+func (s *PluginManager) loadPlugins(file string) error {
 
 	pluginJson, err := ioutil.ReadFile(file)
 	if err != nil {
@@ -41,13 +43,12 @@ func (s *PluginManager) LoadPlugins(file string)(error){
 	}
 
 	for _, p := range pd {
-		LoadPlugin(&s.Mention, p.Name, p.Path)
+		loadPlugin(&s.Mention, p.Name, p.Path)
 	}
 	return nil
 }
 
-
-func LoadPlugin(plug *map[string]plugin.Symbol, name string, path string) {
+func loadPlugin(plug *map[string]plugin.Symbol, name string, path string) {
 	log.Printf("loadPlugin:" + name + ": " + path)
 
 	p, err := plugin.Open(path)

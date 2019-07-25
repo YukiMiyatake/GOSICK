@@ -6,10 +6,9 @@
 package main
 
 import (
-	"log"
 	"os"
-	"github.com/YukiMiyatake/GOSICK/util"
 
+	"util"
 )
 
 func main() {
@@ -17,34 +16,17 @@ func main() {
 }
 
 func _main(args []string) int {
-	sc := util.SlackConfig{}
-	err := sc.LoadSlackConfig("./slack.json")
+	sc := util.SlackConfig{BotID: "id", BotName: {"name"}}
 
-	if(err != nil){
-		log.Printf("[Error] %s", err)
-		return 1
-	}
+	pm, err := util.NewPluginManager("./plugin.json")
+	//	pm.LoadPlugins()
 
-	pm := util.NewPluginManager()
-	pm.LoadPlugins("./plugin.json")
-
-	if err != nil {
-		log.Printf("[Error] %s", err)
-		return 1
-	}
-
-
-//*
-//	コマンドライン入力
+	//*
+	//	コマンドライン入力
 	echo := util.LoadOutputProcess("plugins/cmd/cmd.so")
 	echo.(func(util.SlackConfig, *util.PluginManager))(sc, pm)
 
-
-
-
-		//*/
-
+	//*/
 
 	return 0
 }
-
