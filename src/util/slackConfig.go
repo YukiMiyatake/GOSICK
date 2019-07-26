@@ -12,6 +12,7 @@ type SlackConfig struct {
 
 // NewSlackConfig ..
 func NewSlackConfig(file string) (*SlackConfig, error) {
-	s := SlackConfig{}
-	return &s, JsonFileLoader(file, s)
+	s := &SlackConfig{}
+
+	return s, JsonFileLoader(file, s)
 }

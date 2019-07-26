@@ -2,19 +2,22 @@ version: '3'
 services:
   app:
     build:
-      context: ./                                   # Dockerfileの実行場所指定
-      dockerfile: ./docker/construct_app/Dockerfile # Dockerfile指定
-    image: gosick-app                               # イメージ名
-    container_name: gosick-app                      # コンテナ名
-    tty: true
-    volumes:                                        # プロジェクトルートディレクトリをworkdir(/gosick)にマウント
-      - ./:/gosick
+      context: .
+      dockerfile: Dockerfile
+#    image: gosick-app
+    container_name: gosick-app
+#    tty: true
+    volumes:
+      - ./src:/src
+    links:
+      - redis
 
   redis:
     build:
-      context: ./docker/construct_redis    # Dockerfile保存場所
-    image: gosick-redis                    # イメージ名
-    container_name: gosick-redis           # コンテナ名
-    command: redis-server --appendonly yes # データをファイルに保存
-    volumes:                               # 永続化
-       - ./docker/construct_redis/data:/data
+      context: .
+      dockerfile: Dockerfile_redis
+#    image: gosick-redis
+    container_name: gosick-redis
+    command: redis-server --appendonly yes
+    volumes:
+       - ./volume/redis:/data

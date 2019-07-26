@@ -16,7 +16,8 @@ import (
 	//	"github.com/aws/aws-sdk-go/aws/session"
 	//	"github.com/aws/aws-sdk-go/service/ecr"
 
-	"github.com/YukiMiyatake/GOSICK/util"
+	"util"
+
 	"github.com/nlopes/slack"
 )
 

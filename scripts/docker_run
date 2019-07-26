@@ -1,2 +1,2 @@
- docker run -it -v $(echo $('pwd') | sed -e 's/^\/mnt//'):/gosick gosick /bin/sh
+ docker run -it -v ./src:/gosick gosick /bin/sh
 

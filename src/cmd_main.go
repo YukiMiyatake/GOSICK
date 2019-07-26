@@ -16,17 +16,17 @@ func main() {
 }
 
 func _main(args []string) int {
-	sc := util.SlackConfig{BotID: "id", BotName: {"name"}}
+	sc := util.SlackConfig{BotID: "id", BotName: []string{"name"}}
 
 	pm, err := util.NewPluginManager("./plugin.json")
-	//	pm.LoadPlugins()
+	if err != nil {
+		println(err)
+		return 0
+	}
 
-	//*
 	//	コマンドライン入力
 	echo := util.LoadOutputProcess("plugins/cmd/cmd.so")
 	echo.(func(util.SlackConfig, *util.PluginManager))(sc, pm)
-
-	//*/
 
 	return 0
 }
