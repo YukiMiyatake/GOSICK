@@ -1,4 +1,6 @@
-package util
+package slack
+
+import "util"
 
 // SlackConfig ..
 type SlackConfig struct {
@@ -14,5 +16,5 @@ type SlackConfig struct {
 func NewSlackConfig(file string) (*SlackConfig, error) {
 	s := &SlackConfig{}
 
-	return s, JsonFileLoader(file, s)
+	return s, util.JsonFileLoader(file, s)
 }

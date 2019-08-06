@@ -9,8 +9,8 @@ services:
 #    tty: true
     volumes:
       - ./src:/src
-    links:
-      - redis
+#    links:
+#      - redis
 
 #  redis:
 #    build:

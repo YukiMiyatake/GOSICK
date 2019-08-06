@@ -1,9 +1,12 @@
-// +build cmd_driver
-/*
-	Slackに接続を行わず　コマンドラインインタフェースで行う
-*/
 package main
 
+/*
+	Slackに接続を行わず　コマンドラインインタフェースで行う
+    作り直す
+*/
+/*
+
+// +build cmd_driver
 // Refactor
 
 import (
@@ -31,3 +34,4 @@ func _main(args []string) int {
 
 	return 0
 }
+*/

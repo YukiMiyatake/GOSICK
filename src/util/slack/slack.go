@@ -1,21 +1,9 @@
-package main
+package slack
 
 import (
-	//	"fmt"
-	//	"fmt"
 	"log"
 	"plugin"
 	"strings"
-
-	//	"map"
-	//	"sort"
-	//	"time"
-
-	//	"github.com/aws/aws-sdk-go/aws"
-	//	"github.com/aws/aws-sdk-go/service/ec2"
-	//	"github.com/aws/aws-sdk-go/aws/session"
-	//	"github.com/aws/aws-sdk-go/service/ecr"
-
 	"util"
 
 	"github.com/nlopes/slack"
@@ -38,12 +26,43 @@ type SlackListener struct {
 	//	mention		map[string]func([]string)string
 	// TODO: オブジェクト化する
 	// TODO: mentionと通常メッセージ分けるかも
-	promiscous *map[string]plugin.Symbol
-	mention    *map[string]plugin.Symbol
+	promiscous  *map[string]plugin.Symbol
+	mention     *map[string]plugin.Symbol
+	slackConfig *SlackConfig
+}
+
+func NewSlackListener(file string) (*SlackListener, error) {
+
+	sc, err := NewSlackConfig(file)
+	if err != nil {
+		log.Printf("[Error] %s", err)
+		return nil, err
+	}
+
+	log.Printf("[Info] Start slack event listening ")
+	client := slack.New(sc.BotToken)
+
+	pm, err := util.NewPluginManager("./plugin.json")
+	if err != nil {
+		log.Printf("[Error] %s", err)
+		return nil, err
+	}
+
+	s := &SlackListener{
+		client:      client,
+		botID:       &sc.BotID,
+		botName:     &sc.BotName,
+		channelID:   &sc.ChannelID,
+		promiscous:  &pm.Promiscuous,
+		mention:     &pm.Mention,
+		slackConfig: sc,
+	}
+
+	return s, nil
 }
 
 // MessageEvent を待ち受け
-func (s *SlackListener) ListenAndResponse() {
+func (s *SlackListener) Listen() error {
 	s.rtm = s.client.NewRTM()
 
 	go s.rtm.ManageConnection()
@@ -58,6 +77,11 @@ func (s *SlackListener) ListenAndResponse() {
 		default:
 		}
 	}
+	return nil
+}
+
+func hoge() {
+
 }
 
 // MessageEvent を処理
