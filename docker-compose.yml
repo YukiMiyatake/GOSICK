@@ -12,12 +12,29 @@ services:
     links:
       - redis
 
-  redis:
-    build:
-      context: .
-      dockerfile: Dockerfile_redis
-#    image: gosick-redis
-    container_name: gosick-redis
-    command: redis-server --appendonly yes
+#  redis:
+#    build:
+#      context: .
+#      dockerfile: Dockerfile_redis
+##    image: redis:latest
+#    container_name: gosick-redis
+#    command: redis-server --appendonly yes
+#    volumes:
+#       - ./volume/redis:/data
+
+  db:
+    image: mysql:5.7
+    container_name: gosick-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: gosick
+      MYSQL_USER: user
+      MYSQL_PASSWORD: pass
+      TZ: 'Asia/Tokyo'
+#    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     volumes:
-       - ./volume/redis:/data
+      - ./volume/mysql:/var/lib/mysql
+
+    ports:
+      - 3306:3306
+

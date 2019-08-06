@@ -8,9 +8,8 @@ CMD ./build.sh
 CMD ls
 
 
-WORKDIR /app
-COPY /build/GOSICK .
+#WORKDIR /app
+#COPY ./src /build/GOSICK
 
-CMD rmdir /build
-CMD [GOSICK]
+CMD ./GOSICK
 

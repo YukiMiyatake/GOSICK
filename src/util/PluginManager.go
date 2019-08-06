@@ -43,31 +43,34 @@ func (s *PluginManager) loadPlugins(file string) error {
 	}
 
 	for _, p := range pd {
-		loadPlugin(&s.Mention, p.Name, p.Path)
+		sym := loadPlugin(p.Path)
+		if sym != nil {
+			s.Mention[p.Name] = sym
+		}
 	}
 	return nil
 }
 
-func loadPlugin(plug *map[string]plugin.Symbol, name string, path string) {
-	log.Printf("loadPlugin:" + name + ": " + path)
+func loadPlugin(path string) plugin.Symbol {
+	log.Printf("loadPlugin: " + path)
 
 	p, err := plugin.Open(path)
 	if err != nil {
 		log.Printf("fail to load plugin [%s]", path)
-		return
+		return nil
 	}
 
 	init, e := p.Lookup("Init")
 	if e != nil {
 		log.Printf("fail to Lookup 'init'")
-		return
+		return nil
 	}
 	init.(func())()
 
 	pv, err := p.Lookup("OnMention")
 	if err != nil {
 		log.Printf("fail to Lookup 'OnMention'")
-		return
+		return nil
 	}
-	(*plug)[name] = pv
+	return pv
 }
