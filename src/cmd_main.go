@@ -1,9 +1,10 @@
 // +build cmd_driver
-
 /*
 	Slackに接続を行わず　コマンドラインインタフェースで行う
 */
 package main
+
+// Refactor
 
 import (
 	"os"

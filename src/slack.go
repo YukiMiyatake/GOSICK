@@ -89,7 +89,6 @@ func (s *SlackListener) handleMessageEvent(ev *slack.MessageEvent) error {
 			}
 
 		}
-
 		//		s.rtm.SendMessage(s.rtm.NewOutgoingMessage("なぁに？ " + strings.Join(msgs[1:], " " ), s.channelID))
 
 	}
