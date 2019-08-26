@@ -5,6 +5,8 @@ go:
 go_import_path: github.com/YukiMiyatake/GOSICK
 
 sudo: required
+env:
+  - GO111MODULE=on
 
 services:
   - docker
@@ -17,7 +19,7 @@ install:
 before_script:
 
 script:
-  - env GO111MODULE=on scripts/docker_app_test
+  - scripts/docker_app_test
  # - docker-compose exec golang go test -v ./...
 
 after_script:
