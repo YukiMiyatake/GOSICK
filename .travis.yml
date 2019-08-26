@@ -14,7 +14,7 @@ install:
 before_script:
 
 script:
-  - env GO111MODULE=on scripts/docker_app_run
+  - env GO111MODULE=on scripts/docker_app_test
  # - docker-compose exec golang go test -v ./...
 
 after_script:
