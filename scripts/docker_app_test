@@ -1,0 +1,2 @@
+docker-compose up -d
+docker-compose exec -e TEST=test gosick_app bash -C '/app/build.sh'

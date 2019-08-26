@@ -1,14 +1,13 @@
 version: '3'
 services:
-  app:
+  gosick_app:
     build:
       context: .
       dockerfile: Dockerfile
-#    image: gosick-app
-    container_name: gosick-app
-#    tty: true
+    container_name: gosick_app
     volumes:
-      - ./src:/src
+      - ./src:/app
+    tty: true
 #    links:
 #      - redis
 
@@ -24,7 +23,7 @@ services:
 
   db:
     image: mysql:5.7
-    container_name: gosick-mysql
+    container_name: gosick_mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: gosick

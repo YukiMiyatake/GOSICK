@@ -1,2 +1,0 @@
- docker run -it -v $(echo $('pwd') | sed -e 's/^\/mnt//'):/chaps --name work work /bin/bash
-

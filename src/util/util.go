@@ -7,15 +7,19 @@ import (
 	"reflect"
 )
 
-//////// container lib algorithm
-// TODO: package
-
-func JsonFileLoader(file string, data interface{}) error {
-	jsonData, err := ioutil.ReadFile(file)
+// JsonFileLoader is Json Load from File
+func JsonFileLoader(file string, st interface{}) error {
+	data, err := ioutil.ReadFile(file)
 	if err != nil {
 		return err
 	}
-	err = json.Unmarshal(jsonData, data)
+
+	return JsonLoader(&data, st)
+}
+
+// JsonLoader is Json Load from Memory
+func JsonLoader(data *[]byte, st interface{}) error {
+	err := json.Unmarshal(*data, st)
 	if err != nil {
 		return err
 	}

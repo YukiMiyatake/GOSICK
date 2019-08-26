@@ -1,1 +1,2 @@
-docker exec -it gosick-app /bin/sh
+docker-compose up -d
+docker-compose exec gosick_app bash -C '/app/GOSICK'

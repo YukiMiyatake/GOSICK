@@ -1,2 +1,0 @@
- docker run -it -v ./src:/gosick gosick /bin/sh
-
