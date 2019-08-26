@@ -1,2 +1,2 @@
 docker-compose up -d
-docker-compose exec -e TEST=test gosick_app bash -C '/app/build.sh'
+docker-compose exec -e TEST=test GO111MODULE=on gosick_app bash -C '/app/build.sh'
