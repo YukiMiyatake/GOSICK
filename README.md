@@ -1,5 +1,6 @@
 # GOSICK
 Chat-Ops Bot for Slack
+[![Build Status](https://travis-ci.org/YukiMiyatake/GOSICK.svg?branch=master)](https://travis-ci.org/YukiMiyatake/GOSICK)
 
 #インストール
 基本Dockerで動かすことを想定
