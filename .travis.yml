@@ -8,7 +8,7 @@ go_import_path: github.com/YukiMiyatake/GOSICK
 env:
   global:
     - GO111MODULE= on
-    - DOCKER_COMPOSE_VERSION:1.24.1
+    - DOCKER_COMPOSE_VERSION :1.24.1
 
 services:
   - docker
