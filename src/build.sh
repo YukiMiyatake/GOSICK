@@ -6,6 +6,7 @@ if [ $TEST = "test" ]; then
     #cd ../..
 
     cd plugins/echo
+    golangci-lint run
     go test -v ./... --buildmode=plugin
     cd ../..
 

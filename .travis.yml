@@ -22,11 +22,11 @@ before_install:
   - chmod +x docker-compose
   - sudo mv docker-compose /usr/local/bin
   - docker-compose build
-#  - docker-compose up -d
 
 install:
 
 before_script:
+  - go install github.com/golangci/golangci-lint/cmd/golangci-lint
 
 script:
   - scripts/docker_app_test
