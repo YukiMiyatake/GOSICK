@@ -7,7 +7,7 @@ if [ $TEST = "test" ]; then
 
     cd plugins/echo
 #    golint
-    go test -v ./... --buildmode=plugin
+    go test ./... --buildmode=plugin
     cd ../..
 
     #cd plugins/cmd
@@ -23,7 +23,7 @@ if [ $TEST = "test" ]; then
     #cd ../..
 
 #    golint
-    go test -v ./...
+    go test ./...
 else
     #cd plugins/memo
     #go build ${TEST} --buildmode=plugin
