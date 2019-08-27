@@ -14,6 +14,7 @@ services:
   - docker
 
 before_install:
+  - sudo /etc/init.d/mysql stop
   - docker-compose -v
   - docker -v
   - sudo rm /usr/local/bin/docker-compose
