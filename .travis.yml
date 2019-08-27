@@ -4,7 +4,7 @@ go:
 
 go_import_path: github.com/YukiMiyatake/GOSICK
 
-sudo: required
+#sudo: required
 env:
   - GO111MODULE=on
   - DOCKER_COMPOSE_VERSION: 1.24.1
