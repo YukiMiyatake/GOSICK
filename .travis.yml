@@ -6,8 +6,9 @@ go_import_path: github.com/YukiMiyatake/GOSICK
 
 #sudo: required
 env:
-  - GO111MODULE=on
-  - DOCKER_COMPOSE_VERSION: 1.24.1
+  global:
+    - GO111MODULE: on
+    - DOCKER_COMPOSE_VERSION: 1.24.1
 
 services:
   - docker
@@ -15,10 +16,10 @@ services:
 before_install:
   - docker-compose -v
   - docker -v
-#  - sudo rm /usr/local/bin/docker-compose
-#  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
-#  - chmod +x docker-compose
-#  - sudo mv docker-compose /usr/local/bin
+  - sudo rm /usr/local/bin/docker-compose
+  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
+  - chmod +x docker-compose
+  - sudo mv docker-compose /usr/local/bin
   - docker-compose build
 #  - docker-compose up -d
 
