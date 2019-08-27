@@ -6,8 +6,8 @@ if [ $TEST = "test" ]; then
     #cd ../..
 
     cd plugins/echo
-    golangci-lint run
-    go test -v ./... --buildmode=plugin
+    golint
+    go test -race -v ./... --buildmode=plugin
     cd ../..
 
     #cd plugins/cmd
@@ -22,7 +22,8 @@ if [ $TEST = "test" ]; then
     #go build --buildmode=plugin
     #cd ../..
 
-    go test -v ./...
+    golint
+    go test -race -v ./...
 else
     #cd plugins/memo
     #go build ${TEST} --buildmode=plugin

@@ -1,7 +1,7 @@
 FROM golang:1.12.7
 
 
-CMD go install github.com/golangci/golangci-lint/cmd/golangci-lint
+CMD go get -u golang.org/x/lint/golint
 
 WORKDIR /app
 #COPY src .
