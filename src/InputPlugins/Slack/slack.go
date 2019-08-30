@@ -1,9 +1,12 @@
-package slack
+package Slack
 
 import (
 	"log"
 	"plugin"
 	"strings"
+
+	"InputPlugins"
+
 	"util"
 
 	"github.com/nlopes/slack"
@@ -16,9 +19,6 @@ const (
 )
 
 //
-type IChatListener interface {
-	Listen() error
-}
 
 type SlackListener struct {
 	client    *slack.Client
@@ -33,10 +33,10 @@ type SlackListener struct {
 	// TODO: mentionと通常メッセージ分けるかも
 	promiscous  *map[string]plugin.Symbol
 	mention     *map[string]plugin.Symbol
-	slackConfig ISlackConfig
+	slackConfig InputPlugins.ISlackConfig
 }
 
-func NewSlackListener(sc ISlackConfig) (IChatListener, error) {
+func NewSlackListener(sc InputPlugins.ISlackConfig) (InputPlugins.IChatListener, error) {
 	log.Printf("[Info] Start slack event listening ")
 	client := slack.New(*sc.GetBotToken())
 

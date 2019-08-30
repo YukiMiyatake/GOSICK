@@ -2,20 +2,20 @@ package main
 
 // Refactor
 import (
+	"GOSICK/InputPlugins/Slack"
 	"bufio"
 	"log"
 	"os"
 	"strings"
 
 	"util"
-	slackUtil "util/slack"
 )
 
 func init() {
 	log.Printf("[Info] Start CommandLine driver ")
 }
 
-func Echo(sc slackUtil.SlackConfig, pm *util.PluginManager) {
+func Echo(sc Slack.SlackConfig, pm *util.PluginManager) {
 	stdin := bufio.NewScanner(os.Stdin)
 	for stdin.Scan() {
 		text := stdin.Text()

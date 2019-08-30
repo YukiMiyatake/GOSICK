@@ -23,9 +23,9 @@
 package main
 
 import (
+	"Slack"
 	"log"
 	"os"
-	slackUtil "util/slack"
 )
 
 func main() {
@@ -34,13 +34,13 @@ func main() {
 
 func _main(args []string) int {
 
-	sc, err := slackUtil.NewSlackConfig("./slack.json")
+	sc, err := Slack.NewSlackConfig("./slack.json")
 	if err != nil {
 		log.Printf("[Error] %s", err)
 		return 0
 	}
 
-	sl, err := slackUtil.NewSlackListener(sc)
+	sl, err := Slack.NewSlackListener(sc)
 	if err != nil {
 		log.Print(err)
 		return 1

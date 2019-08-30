@@ -1,15 +1,9 @@
-package slack
+package Slack
 
-import "util"
-
-type ISlackConfig interface {
-	GetPort() *string
-	GetBotToken() *string
-	GetVerificationToken() *string
-	GetBotID() *string
-	GetBotName() *[]string
-	GetChannelID() *string
-}
+import (
+	"InputPlugins"
+	"util"
+)
 
 // SlackConfig ..
 type SlackConfig struct {
@@ -22,7 +16,7 @@ type SlackConfig struct {
 }
 
 // NewSlackConfig ..
-func NewSlackConfig(file string) (ISlackConfig, error) {
+func NewSlackConfig(file string) (InputPlugins.ISlackConfig, error) {
 	s := &SlackConfig{}
 
 	return s, util.JsonFileLoader(file, s)
