@@ -14,8 +14,9 @@ func main() {
 		return err
 	})
 
-	mf := &MyFile.myFile{}
-	buf, _ := mf.Read(10)
-	println(*(*string)(unsafe.Pointer(&buf)))
-
+	/*
+		mf := &MyFile.myFile{}
+		buf, _ := mf.Read(10)
+		println(*(*string)(unsafe.Pointer(&buf)))
+	*/
 }

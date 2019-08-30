@@ -33,7 +33,14 @@ func main() {
 }
 
 func _main(args []string) int {
-	sl, err := slackUtil.NewSlackListener("./slack.json")
+
+	sc, err := slackUtil.NewSlackConfig("./slack.json")
+	if err != nil {
+		log.Printf("[Error] %s", err)
+		return 0
+	}
+
+	sl, err := slackUtil.NewSlackListener(sc)
 	if err != nil {
 		log.Print(err)
 		return 1

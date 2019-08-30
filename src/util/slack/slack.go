@@ -15,6 +15,11 @@ const (
 	actionCancel = "cancel"
 )
 
+//
+type IChatListener interface {
+	Listen() error
+}
+
 type SlackListener struct {
 	client    *slack.Client
 	botID     *string
@@ -28,19 +33,12 @@ type SlackListener struct {
 	// TODO: mentionと通常メッセージ分けるかも
 	promiscous  *map[string]plugin.Symbol
 	mention     *map[string]plugin.Symbol
-	slackConfig *SlackConfig
+	slackConfig ISlackConfig
 }
 
-func NewSlackListener(file string) (*SlackListener, error) {
-
-	sc, err := NewSlackConfig(file)
-	if err != nil {
-		log.Printf("[Error] %s", err)
-		return nil, err
-	}
-
+func NewSlackListener(sc ISlackConfig) (IChatListener, error) {
 	log.Printf("[Info] Start slack event listening ")
-	client := slack.New(sc.BotToken)
+	client := slack.New(*sc.GetBotToken())
 
 	pm, err := util.NewPluginManager("./plugin.json")
 	if err != nil {
@@ -50,9 +48,9 @@ func NewSlackListener(file string) (*SlackListener, error) {
 
 	s := &SlackListener{
 		client:      client,
-		botID:       &sc.BotID,
-		botName:     &sc.BotName,
-		channelID:   &sc.ChannelID,
+		botID:       sc.GetBotID(),
+		botName:     sc.GetBotName(),
+		channelID:   sc.GetChannelID(),
 		promiscous:  &pm.Promiscuous,
 		mention:     &pm.Mention,
 		slackConfig: sc,
@@ -78,10 +76,6 @@ func (s *SlackListener) Listen() error {
 		}
 	}
 	return nil
-}
-
-func hoge() {
-
 }
 
 // MessageEvent を処理
