@@ -1,9 +1,10 @@
-package main
+package Cmd
 
-// Refactor
+// 使ってない
 import (
-	"GOSICK/InputPlugins/Slack"
+	"InputPlugins"
 	"bufio"
+
 	"log"
 	"os"
 	"strings"
@@ -15,7 +16,7 @@ func init() {
 	log.Printf("[Info] Start CommandLine driver ")
 }
 
-func Echo(sc Slack.SlackConfig, pm *util.PluginManager) {
+func Echo(sc InputPlugins.ISlackConfig, pm *util.PluginManager) {
 	stdin := bufio.NewScanner(os.Stdin)
 	for stdin.Scan() {
 		text := stdin.Text()
@@ -26,7 +27,7 @@ func Echo(sc Slack.SlackConfig, pm *util.PluginManager) {
 
 		msgs := strings.Fields(text)
 		// TODO: load from Env or JSON
-		md := util.NewMessageDispatcher(&sc.BotName, &sc.BotID)
+		md := util.NewMessageDispatcher(&sc.GetBotName(), &sc.GetBotID())
 		if md.GetMessageType(msgs[0]) == util.Mention {
 			for key, value := range pm.Mention {
 				if msgs[1] == key {
