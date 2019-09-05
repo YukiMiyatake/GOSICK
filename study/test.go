@@ -15,6 +15,7 @@ func main() {
 	})
 
 	/*
+		this is error
 		mf := &MyFile.myFile{}
 		buf, _ := mf.Read(10)
 		println(*(*string)(unsafe.Pointer(&buf)))

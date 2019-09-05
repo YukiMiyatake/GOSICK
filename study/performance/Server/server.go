@@ -8,7 +8,8 @@ import (
 )
 
 func main() {
-	runtime.GOMAXPROCS(4)
+	const CPUS = 1
+	runtime.GOMAXPROCS(CPUS)
 
 	listener, err := net.Listen("tcp", "localhost:10000")
 
@@ -16,18 +17,21 @@ func main() {
 		panic(err)
 	}
 
-	go func() {
-		con, err := listener.Accept()
-		if err != nil {
-			panic(err)
-		}
-		buf := make([]byte, 1024)
-		con.Read(buf)
+	for i := 0; i < CPUS; i++ {
 		go func() {
-			defer con.Close()
+			for {
+				con, err := listener.Accept()
+				if err != nil {
+					panic(err)
+				}
+				buf := make([]byte, 1024)
+				con.Read(buf)
+				go func() {
+					defer con.Close()
+				}()
+			}
 		}()
-	}()
-
+	}
 	quit := make(chan os.Signal)
 	signal.Notify(quit, os.Interrupt)
 	<-quit

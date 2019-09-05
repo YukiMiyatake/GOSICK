@@ -13,15 +13,15 @@ func main() {
 	start := time.Now()
 
 	var wg sync.WaitGroup
-	for i := 0; i < 400; i++ {
+	for i := 0; i < 1000; i++ {
 		wg.Add(1)
 		go func() {
 			var con net.Conn
-			var err error
+			//var err error
 			for {
-				con, err = net.Dial("tcp", "localhost:10000")
+				con, _ = net.Dial("tcp", "localhost:10000")
 
-				if err == nil {
+				if con != nil {
 					break
 				}
 				time.Sleep(10 * time.Microsecond)
