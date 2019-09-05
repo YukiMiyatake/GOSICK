@@ -12,9 +12,8 @@ type myFile struct {
 }
 
 func NewMyFile(filename string, cb func(ImyFile) error) error {
-	s := &myFile{filename: filename}
-	var err error
-	s.fp, err = os.Open(filename)
+	fp, err := os.Open(filename)
+	s := &myFile{filename: filename, fp: fp}
 	if err != nil {
 		return err
 	}
