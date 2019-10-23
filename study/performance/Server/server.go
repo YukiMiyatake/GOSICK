@@ -24,11 +24,11 @@ func main() {
 				if err != nil {
 					panic(err)
 				}
-				buf := make([]byte, 1024)
-				con.Read(buf)
-				go func() {
+				go func(con net.Conn) {
+					buf := make([]byte, 1024)
+					con.Read(buf)
 					defer con.Close()
-				}()
+				}(con)
 			}
 		}()
 	}
