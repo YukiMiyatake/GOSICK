@@ -1,0 +1,6 @@
+[
+  {
+    "NAME": "echo",
+    "PATH": "plugins/echo/echo.so"
+  }
+]
