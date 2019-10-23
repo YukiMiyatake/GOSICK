@@ -1,5 +1,9 @@
 #ChatopsBOT
 
+サーバレスに生まれ変わらせる！
+コンテナとの併用は行えればいいが考えない
+
+
 #設定ファイル
 ##slack設定
 sample/slack.json.orgをもとにルートディレクトリにslack.jsonを設置する
