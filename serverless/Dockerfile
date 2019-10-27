@@ -1,5 +1,5 @@
 FROM ubuntu:18.04
-LABEL maintener: YukiMiyatake<YukiMariaMiyatake@gmail.com>
+MAINTAINER YukiMiyatake<YukiMariaMiyatake@gmail.com>
 
 WORKDIR /root
 ENV HOME /root
@@ -37,7 +37,7 @@ RUN curl -sL https://aka.ms/InstallAzureCLIDeb | bash
 #RUN apt-get install -y libsecret-1-dev
 #serverless framework
 RUN npm install -g -y serverless 
-RUN npm install -g serverless-azure-functions
+RUN npm install -g serverless-azure-functions azure-functions-core-tools
 
 WORKDIR /src
 
