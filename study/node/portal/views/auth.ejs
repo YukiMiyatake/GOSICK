@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+
+<body>
+    <% f title == '認証成功' { %>
+    <p>認証に成功しました｡
+        <a href="/login"> ログイン</a>
+    </p>
+    <% } else { %>
+    <p> 認証に失敗しました｡もう一度､最初からやり直してください｡
+        <a href="/signup"> サインアップ</a>
+    </p>
+    <% } %>
+</body>
+
+</html>

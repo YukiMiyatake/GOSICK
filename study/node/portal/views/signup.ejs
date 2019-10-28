@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+
+<body>
+    <h1><%= title %></h1>
+    <% if (title == 'サインアップ'){ %>
+    <form action="/signup" , method="post">
+        <div>
+            <label>
+                <p>user name:
+                    <input type="text" , name="username" />
+                </p>
+            </label>
+            <label>
+                <p>E-mail:
+                    <input type="email" , name="email" />
+                </p>
+            </label>
+            <label>
+                <p>password:
+                    <input type="password" , name="password" />
+                </p>
+            </label>
+
+            <button type="submit">sign up</button>
+            <p>or
+                <a href="/login">login</a>
+            </p>
+        </div>
+
+    </form>
+
+    <% } else { %>
+    <p> アカウント確認メールを送信しました｡メール内のリンクから認証を行っってください｡ </p>
+
+    <% } %>
+
+
+</body>
+
+</html>
